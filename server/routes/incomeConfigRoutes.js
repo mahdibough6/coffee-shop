@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const incomeConfigController = require('./controllers/incomeConfigController');
+const incomeConfigController = require('../controller/incomeConfigController');
 
 router.post('/income-configs', incomeConfigController.createIncomeConfig);
 router.get('/income-configs', incomeConfigController.getAllIncomeConfigs);

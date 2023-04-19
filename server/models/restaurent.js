@@ -3,7 +3,6 @@ const {
   Model
 } = require('sequelize');
 
-const Client = require('./client');
 
 module.exports = (sequelize, DataTypes) => {
   class Restaurent extends Model {
@@ -25,7 +24,7 @@ module.exports = (sequelize, DataTypes) => {
     clientId: {
       type: DataTypes.INTEGER,
       references: {
-        model: Client,
+        model: 'Clients',
         key: 'id'
       }
     },

@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   Table.init({
     name: DataTypes.STRING,
-    state: DataTypes.STRING
+    state: DataTypes.STRING // TODO add default value
   }, {
     sequelize,
     modelName: 'Table',

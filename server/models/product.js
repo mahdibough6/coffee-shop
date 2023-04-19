@@ -4,12 +4,7 @@ const {
 } = require('sequelize');
 
 
-const {
-  OrderedProduct,
-  Kitchen,
-  Order,
-  ProductCategory,
-}  = require('./');
+
 
 module.exports = (sequelize, DataTypes) => {
   class Product extends Model {
@@ -40,14 +35,14 @@ module.exports = (sequelize, DataTypes) => {
     productCategoryId:{
       type: DataTypes.INTEGER,
       references: {
-        model: ProductCategory,
+        model: 'ProductCategories',
         key: 'id'
       }
     },
     kitchenId:{
       type: DataTypes.INTEGER,
       references: {
-        model: Kitchen,
+        model: 'Kitchens',
         key: 'id'
       }
     },

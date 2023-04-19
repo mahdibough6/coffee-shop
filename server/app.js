@@ -3,6 +3,7 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var cors = require ('cors'); 
 
 // routes
 var indexRouter = require('./routes/index');
@@ -16,7 +17,9 @@ var orderedProductRoutes = require('./routes/orderedProductRoutes');
 var productCategoryRoutes = require('./routes/productCategoryRoutes');
 var orderRoutes = require('./routes/orderRoutes');
 
+var loginRoutes = require('./routes/loginRoutes');
 
+const { authenticateJWT } = require('./middlewares/authenticateJWT');
 
 
 var app = express();
@@ -27,6 +30,17 @@ var db = require("./models");
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
+// Set up the CORS options
+const corsOptions = {
+  origin: 'http://localhost:5173',
+  optionsSuccessStatus: 200,
+  credentials: true
+};
+
+// Use the CORS middleware with the specified options
+app.use(cors(corsOptions));
+
+
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -34,6 +48,9 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 
+app.use('/login', loginRoutes);
+
+//app.use(authenticateJWT);
 //here the order is important [routes area]
 app.use('/', indexRouter);
 app.use('/api', clientRouter);
@@ -45,6 +62,7 @@ app.use('/api', restaurentRoutes);
 app.use('/api', orderedProductRoutes);
 app.use('/api', productCategoryRoutes);
 app.use('/api', orderRoutes);
+
 
 
 // catch 404 and forward to error handler

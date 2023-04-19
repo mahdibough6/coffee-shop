@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const tableController = require('./controllers/tableController');
+const tableController = require('../controller/tableController');
 
 router.post('/tables', tableController.createTable);
 router.get('/tables', tableController.getAllTables);

@@ -1,14 +1,17 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import Dashboard from './dashboard/Dashboard'
+import { Outlet } from "react-router-dom";
+import BottomNav from './components/bottomnav'
+import TopBar from './components/topbar'
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
-    <div className="App bg-green-100">
-     <Dashboard/> 
+    <div className='flex flex-col h-screen blue-gray-light'>
+      <TopBar/>
+      <div className='flex flex-1 flex-col flex-1'>
+        <Outlet />
+      </div>
     </div>
   )
 }

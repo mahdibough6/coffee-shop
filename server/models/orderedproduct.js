@@ -2,8 +2,6 @@
 const {
   Model
 } = require('sequelize');
-const Order = require('./order');
-const Product = require('./product');
 
 
 module.exports = (sequelize, DataTypes) => {
@@ -23,14 +21,14 @@ module.exports = (sequelize, DataTypes) => {
     orderId: {
       type: DataTypes.INTEGER,
       references:{
-        model: Order,
+        model: 'Orders',
         key:'id'
       }
     },
     productId: {
       type: DataTypes.INTEGER,
       references:{
-        model: Product,
+        model: 'Products',
         key:'id'
       }
     },

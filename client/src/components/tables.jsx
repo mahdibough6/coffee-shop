@@ -1,44 +1,20 @@
-import {useState, useEffect} from 'react';
-import { Link } from 'react-router-dom';
+import {useState, useEffect, useContext} from 'react';
+import { Link, useParams, useLocation } from 'react-router-dom';
 import img from '../assets/chair.png'
-import axios from 'axios'
+import api from '../utils/api';
+import { EmployeeContext } from '../contexts/EmployeeContext';
+import { useNavigate } from 'react-router-dom';
+import { signOut } from '../utils/helpers';
 
-
-const tales = [
-    {
-        id:1,
-        numOrders: 1,
-        name: "salle 01"
-    },
-    {
-        id:2,
-        numOrders: 2,
-        name: "salle 01"
-    },
-    {
-        id:3,
-        numOrders: 3,
-        name: "salle 01"
-    },
-    {
-        id:4,
-        numOrders: 5,
-        name: "salle 01"
-    },
-    {
-        id:5,
-        numOrders: 0,
-        name: "salle 01"
-    },
-]
 
 const TableItem = ({table}) =>{
 
     const [isActive, setIsActive] = useState(table.state);
+    
 
 
     return (
-      <Link href={''} key={table.id}>
+      <Link to={{pathname:"tables/productcategories/", table }} key={table.id}>
     <div className={(isActive == 'empty' ? 'bg-gray-200' : 'bg-yellow-100')+' aspect-w-1 aspect-h-1 rounded-md p-2 border-2 border-gray-400'}>
         <div className='flex justify-center'> {table.numOrders} </div>
         <div><img src={img} alt=""  /></div>
@@ -50,11 +26,19 @@ const TableItem = ({table}) =>{
 
 const Tables = ()=>{
 
-    const [tables, setTables] = useState([]);
+  const navigate = useNavigate();
+  const [tables, setTables] = useState([]);
+  
 
   useEffect(() => {
     const fetchTables = async () => {
-      const response = await axios.get('http://localhost:3000/api/tables');
+      const jwtToken = localStorage.getItem('jwtToken')
+      const response = await api.get('/api/tables', {
+        onForbiden: ()=>{
+          signOut();
+          navigate('/login')
+        }
+      });
       setTables(response.data);
     };
 
@@ -65,6 +49,8 @@ const Tables = ()=>{
     }
 
 
+    const employee = useContext(EmployeeContext)
+    console.log(employee)
 
     return(
 <div className="grid grid-cols-3 gap-4 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 p-2 ">

@@ -9,7 +9,7 @@ const useAuth = () => {
     try {
       const response = await api.post('/login/employee', { username, password });
       const { token } = response.data;
-      localStorage.setItem('jwtToken', token);
+      localStorage.setItem('token', token);
       setAuthToken(token);
       setLoggedIn(true);
       return true;
@@ -20,7 +20,7 @@ const useAuth = () => {
   };
 
   const logout = () => {
-    localStorage.removeItem('jwtToken');
+    localStorage.removeItem('token');
     setAuthToken(null);
     setLoggedIn(false);
   };

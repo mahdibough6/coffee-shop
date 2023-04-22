@@ -1,4 +1,4 @@
-const { Product } = require('../models');
+const { Product, ProductCategory } = require('../models');
 
 // Create a new product
 exports.createProduct = async (req, res) => {
@@ -63,6 +63,21 @@ exports.deleteProduct = async (req, res) => {
       res.status(404).json({ message: 'Product not found' });
     }
   } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+exports.getProductByCat = async (req, res) => {
+  try {
+    const products = await Product.findAll({
+      include: {
+        model: ProductCategory,
+        where: { id: req.params.id },
+      },
+    });
+    res.status(200).json(products);
+  } catch (error) {
+    console.log('Error retrieving products by category:', error.message);
     res.status(500).json({ error: error.message });
   }
 };

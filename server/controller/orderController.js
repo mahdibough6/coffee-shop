@@ -1,5 +1,4 @@
 const { Order, Employee, Table, Product } = require('../models');
-
 // Create a new order
 exports.createOrder = async (req, res) => {
   try {
@@ -72,3 +71,44 @@ exports.deleteOrder = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+// get the most recent not paid order 
+
+exports.getMostRecentNotPaidOrder = async (req, res) => {
+  const tableId = req.query.tableId;
+  const employeeId = req.query.employeeId;
+
+  if (!tableId || !employeeId) {
+    return res.status(400).send({ message: 'Both tableId and employeeId are required.' });
+  }
+
+  try {
+    const order = await Order.findOne({
+      where: {
+        tableId: tableId,
+        employeeId: employeeId,
+        state: 'NOT_PAID'
+      },
+      order: [['createdAt', 'DESC']],
+      include: [
+        {
+          model: Table,
+          required: true,
+        },
+        {
+          model: Employee,
+          required: true,
+        },
+      ],
+    });
+
+    if (!order) {
+      return res.status(404).send({ message: 'No NOT_PAID orders found for the specified table and employee.' });
+    }
+
+    res.status(200).send(order.toJSON());
+  } catch (error) {
+    console.error('Error fetching the most recent NOT_PAID order:', error);
+    res.status(500).send({ message: 'An error occurred while fetching the most recent NOT_PAID order.' });
+  }
+}

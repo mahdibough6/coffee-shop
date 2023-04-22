@@ -10,6 +10,10 @@ import Tables from './components/tables';
 import Card from './pages/card';
 import EmployeeRoutes from './utils/employee-routes';
 import TableLayout from './layouts/tablelayout';
+import ProductCategories from './components/ProductCategories';
+import Products from './components/Products';
+import Cashier from './components/cashier';
+
 
 const router = createBrowserRouter([
   {
@@ -27,6 +31,10 @@ const router = createBrowserRouter([
                 element: <Tables />,
               },
               {
+                path:'products',
+                element: <Products/>
+              },
+              {
                 path: 'tables/',
                 element:<TableLayout/>,
                 children: [
@@ -35,14 +43,16 @@ const router = createBrowserRouter([
                     element: <Card />,
                   },
                   {
-                    path: 'cashier/',
+                    path: 'productcategories/',
+                    element: <ProductCategories />,
                   },
                 ],
               },
             ],
           },
           {
-            path: 'caisse/',
+            path: 'cashier/',
+            element: <Cashier/>
           },
         ],
       },

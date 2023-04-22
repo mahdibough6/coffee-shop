@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
@@ -16,6 +18,7 @@ var restaurentRoutes = require('./routes/restaurentRoutes');
 var orderedProductRoutes = require('./routes/orderedProductRoutes');
 var productCategoryRoutes = require('./routes/productCategoryRoutes');
 var orderRoutes = require('./routes/orderRoutes');
+var employeeRoutes = require('./routes/employeeRoutes');
 
 var loginRoutes = require('./routes/loginRoutes');
 
@@ -50,18 +53,18 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/login', loginRoutes);
 
-//app.use(authenticateJWT);
+app.use('/api', employeeRoutes);
 //here the order is important [routes area]
 app.use('/', indexRouter);
-app.use('/api', clientRouter);
-app.use('/api', kitchenRoutes);
-app.use('/api', productRoutes);
-app.use('/api', incomeConfigRoutes);
-app.use('/api', tableRoutes);
-app.use('/api', restaurentRoutes);
-app.use('/api', orderedProductRoutes);
-app.use('/api', productCategoryRoutes);
-app.use('/api', orderRoutes);
+app.use('/api', authenticateJWT, clientRouter);
+app.use('/api', authenticateJWT,kitchenRoutes);
+app.use('/api', authenticateJWT,productRoutes);
+app.use('/api', authenticateJWT,incomeConfigRoutes);
+app.use('/api', authenticateJWT,tableRoutes);
+app.use('/api', authenticateJWT,restaurentRoutes);
+app.use('/api', authenticateJWT,orderedProductRoutes);
+app.use('/api', authenticateJWT,productCategoryRoutes);
+app.use('/api', authenticateJWT,orderRoutes);
 
 
 

@@ -32,14 +32,19 @@ const Tables = ()=>{
 
   useEffect(() => {
     const fetchTables = async () => {
-      const jwtToken = localStorage.getItem('jwtToken')
-      const response = await api.get('/api/tables', {
-        onForbiden: ()=>{
-          signOut();
-          navigate('/login')
-        }
-      });
-      setTables(response.data);
+      try {
+        const response = await api.get("/api/tables", {
+          // handle 403 Forbidden status code
+          onForbidden: () => {
+            signOut();
+            navigate("/login");
+          },
+        });
+        setTables(response.data);
+      } catch (error) {
+        // handle other errors
+        console.error(error);
+      }
     };
 
     fetchTables();

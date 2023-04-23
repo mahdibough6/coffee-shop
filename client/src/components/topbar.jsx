@@ -6,6 +6,7 @@ import logo from '../assets/pub-maroc.ico'
 const TopBar = ()=>{
     const [isActive, setIsActive] = useState(false);
     function handleClick() {
+      setIsActive(false)
         window.history.go(-1);
       }
     const handleSideBar = ()=>{

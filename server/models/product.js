@@ -19,10 +19,6 @@ module.exports = (sequelize, DataTypes) => {
         through: models.OrderedProduct,
         foreignKey: 'productId'
       });
-
-      this.belongsTo(models.Kitchen ,{
-        foreignKey: 'kitchenId'
-      })
       this.belongsTo(models.ProductCategory ,{
         foreignKey: 'productCategoryId'
       })
@@ -36,13 +32,6 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       references: {
         model: 'ProductCategories',
-        key: 'id'
-      }
-    },
-    kitchenId:{
-      type: DataTypes.INTEGER,
-      references: {
-        model: 'Kitchens',
         key: 'id'
       }
     },

@@ -1,7 +1,7 @@
 const { Client } = require('../models');
 
 // Create a new client
-exports.createClient = async (req, res) => {
+exports.create = async (req, res) => {
   try {
     const client = await Client.create(req.body);
     res.status(201).json(client);
@@ -11,7 +11,7 @@ exports.createClient = async (req, res) => {
 };
 
 // Get all clients
-exports.getAllClients = async (req, res) => {
+exports.getAll = async (req, res) => {
   try {
     const clients = await Client.findAll();
     res.status(200).json(clients);
@@ -21,7 +21,7 @@ exports.getAllClients = async (req, res) => {
 };
 
 // Get a single client by ID
-exports.getClientById = async (req, res) => {
+exports.getById = async (req, res) => {
   try {
     const client = await Client.findByPk(req.params.id);
     if (client) {
@@ -35,7 +35,7 @@ exports.getClientById = async (req, res) => {
 };
 
 // Update a client by ID
-exports.updateClient = async (req, res) => {
+exports.update = async (req, res) => {
   try {
     const [updatedRows] = await Client.update(req.body, {
       where: { id: req.params.id },
@@ -53,7 +53,7 @@ exports.updateClient = async (req, res) => {
 };
 
 // Delete a client by ID
-exports.deleteClient = async (req, res) => {
+exports.delete = async (req, res) => {
   try {
     const deletedRows = await Client.destroy({ where: { id: req.params.id } });
 

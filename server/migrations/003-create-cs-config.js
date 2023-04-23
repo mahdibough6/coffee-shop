@@ -2,7 +2,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('IncomeConfigs', {
+    await queryInterface.createTable('CoffeeShopConfig', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -17,10 +17,10 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE
       },
-      restaurentId:{
+      coffeeShopId:{
         type: Sequelize.INTEGER,
         references: {
-          model:'Restaurents',
+          model:'CoffeeShops',
           key:'id'
         }
       },
@@ -31,6 +31,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('IncomeConfigs');
+    await queryInterface.dropTable('CoffeeShopConfig');
   }
 };

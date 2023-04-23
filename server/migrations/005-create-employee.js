@@ -2,14 +2,29 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Kitchens', {
+    await queryInterface.createTable('Employees', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      name: {
+      first: {
+        type: Sequelize.STRING
+      },
+      last: {
+        type: Sequelize.STRING
+      },
+      tel: {
+        type: Sequelize.STRING
+      },
+      username: {
+        type: Sequelize.STRING
+      },
+      pwd: {
+        type: Sequelize.STRING
+      },
+      role: {
         type: Sequelize.STRING
       },
       printerIp: {
@@ -17,6 +32,13 @@ module.exports = {
       },
       printerPort: {
         type: Sequelize.STRING
+      },
+      coffeeShopId: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'CoffeeShops',
+          key: 'id'
+        }
       },
       createdAt: {
         allowNull: false,
@@ -29,6 +51,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Kitchens');
+    await queryInterface.dropTable('Empoyees');
   }
 };

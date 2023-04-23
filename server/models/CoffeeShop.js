@@ -3,24 +3,27 @@ const {
   Model
 } = require('sequelize');
 
-
 module.exports = (sequelize, DataTypes) => {
-  class Restaurent extends Model {
+  class CoffeeShop extends Model {
     static associate(models) {
       this.hasMany(models.Employee, {
-        foreignKey: 'restaurentId'
+        foreignKey: 'coffeeShopId'
       })
-      this.hasOne(models.IncomeConfig, {
-        foreignKey: 'restaurentId'
+      this.hasOne(models.CoffeeShopConfig, {
+        foreignKey: 'coffeeShopId'
       })
       this.belongsTo(models.Client, {
         foreignKey: 'clientId'
       })
     }
   }
-  Restaurent.init({
+  CoffeeShop.init({
     name: DataTypes.STRING,
     address: DataTypes.STRING,
+    key: {
+      type: DataTypes.STRING,
+      unique:true
+    },
     clientId: {
       type: DataTypes.INTEGER,
       references: {
@@ -30,7 +33,9 @@ module.exports = (sequelize, DataTypes) => {
     },
   }, {
     sequelize,
-    modelName: 'Restaurent',
+    modelName: 'CoffeeShop',
+
   });
-  return Restaurent;
+  return CoffeeShop;
 };
+

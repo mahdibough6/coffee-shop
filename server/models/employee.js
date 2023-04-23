@@ -7,8 +7,8 @@ const {
 module.exports = (sequelize, DataTypes) => {
   class Employee extends Model {
     static associate(models) {
-      this.belongsTo(models.Restaurent, {
-        foreignKey: 'restaurentId'
+      this.belongsTo(models.CoffeeShop, {
+        foreignKey: 'coffeeShopId'
       })
       this.hasMany(models.Order, {
         foreignKey: 'employeeId'
@@ -24,10 +24,10 @@ module.exports = (sequelize, DataTypes) => {
     role: DataTypes.STRING,
     printerIp: DataTypes.STRING,
     printerPort: DataTypes.STRING,
-    restaurentId: {
+    coffeeShopId: {
       type: DataTypes.INTEGER,
       references: {
-        model: 'Restaurents',
+        model: 'CoffeeShops',
         key: 'id'
       }
     }

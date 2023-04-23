@@ -1,6 +1,6 @@
 const { Order, Employee, Table, Product } = require('../models');
 // Create a new order
-exports.createOrder = async (req, res) => {
+exports.create = async (req, res) => {
   try {
     const order = await Order.create(req.body);
     res.status(201).json(order);
@@ -10,7 +10,7 @@ exports.createOrder = async (req, res) => {
 };
 
 // Get all orders
-exports.getAllOrders = async (req, res) => {
+exports.getAll = async (req, res) => {
   try {
     const orders = await Order.findAll({
       include: [Employee, Table, Product],
@@ -22,7 +22,7 @@ exports.getAllOrders = async (req, res) => {
 };
 
 // Get a single order by ID
-exports.getOrderById = async (req, res) => {
+exports.getById = async (req, res) => {
   try {
     const order = await Order.findByPk(req.params.id, {
       include: [Employee, Table, Product],
@@ -38,7 +38,7 @@ exports.getOrderById = async (req, res) => {
 };
 
 // Update an order by ID
-exports.updateOrder = async (req, res) => {
+exports.update = async (req, res) => {
   try {
     const [updatedRows] = await Order.update(req.body, {
       where: { id: req.params.id },
@@ -58,7 +58,7 @@ exports.updateOrder = async (req, res) => {
 };
 
 // Delete an order by ID
-exports.deleteOrder = async (req, res) => {
+exports.delete = async (req, res) => {
   try {
     const deletedRows = await Order.destroy({ where: { id: req.params.id } });
 

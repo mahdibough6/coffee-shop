@@ -1,31 +1,31 @@
-const { Restaurent } = require('../models');
+const { CoffeeShop } = require('../models');
 
 // Create a new restaurent
-exports.createRestaurent = async (req, res) => {
+exports.create = async (req, res) => {
   try {
-    const restaurent = await Restaurent.create(req.body);
-    res.status(201).json(restaurent);
+    const cs = await CoffeeShop.create(req.body);
+    res.status(201).json(cs);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
 
 // Get all restaurents
-exports.getAllRestaurents = async (req, res) => {
+exports.getAll = async (req, res) => {
   try {
-    const restaurents = await Restaurent.findAll();
-    res.status(200).json(restaurents);
+    const cs = await CoffeeShop.findAll();
+    res.status(200).json(cs);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
 
 // Get a single restaurent by ID
-exports.getRestaurentById = async (req, res) => {
+exports.getById = async (req, res) => {
   try {
-    const restaurent = await Restaurent.findByPk(req.params.id);
+    const cs = await CoffeeShop.findByPk(req.params.id);
     if (restaurent) {
-      res.status(200).json(restaurent);
+      res.status(200).json(cs);
     } else {
       res.status(404).json({ message: 'Restaurent not found' });
     }
@@ -35,15 +35,15 @@ exports.getRestaurentById = async (req, res) => {
 };
 
 // Update a restaurent by ID
-exports.updateRestaurent = async (req, res) => {
+exports.update = async (req, res) => {
   try {
-    const [updatedRows] = await Restaurent.update(req.body, {
+    const [updatedRows] = await CoffeeShop.update(req.body, {
       where: { id: req.params.id },
     });
 
     if (updatedRows) {
-      const updatedRestaurent = await Restaurent.findByPk(req.params.id);
-      res.status(200).json(updatedRestaurent);
+      const newCs = await CoffeeShop.findByPk(req.params.id);
+      res.status(200).json(newCs);
     } else {
       res.status(404).json({ message: 'Restaurent not found' });
     }
@@ -53,9 +53,9 @@ exports.updateRestaurent = async (req, res) => {
 };
 
 // Delete a restaurent by ID
-exports.deleteRestaurent = async (req, res) => {
+exports.delete = async (req, res) => {
   try {
-    const deletedRows = await Restaurent.destroy({ where: { id: req.params.id } });
+    const deletedRows = await CoffeeShop.destroy({ where: { id: req.params.id } });
 
     if (deletedRows) {
       res.status(204).json({ message: 'Restaurent deleted' });
@@ -66,3 +66,11 @@ exports.deleteRestaurent = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+exports.getKey = async(coffeeShopId) =>{
+  return await CoffeeShop.findOne({
+    where:{
+      id: coffeeShopId
+    }
+  }).key
+}

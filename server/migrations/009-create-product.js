@@ -2,27 +2,32 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('IncomeConfigs', {
+    await queryInterface.createTable('Products', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      startHour: {
-        type: Sequelize.TIME,
-        defaultValue:'05:00:00',
+      name: {
+        type: Sequelize.STRING
+      },
+      price: {
+        type: Sequelize.DOUBLE
+      },
+      state: {
+        type: Sequelize.STRING
+      },
+      productCategoryId: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'ProductCategories',
+          key: 'id'
+        }
       },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
-      },
-      restaurentId:{
-        type: Sequelize.INTEGER,
-        references: {
-          model:'Restaurents',
-          key:'id'
-        }
       },
       updatedAt: {
         allowNull: false,
@@ -31,6 +36,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('IncomeConfigs');
+    await queryInterface.dropTable('Products');
   }
 };

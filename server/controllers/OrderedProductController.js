@@ -1,7 +1,7 @@
 const { OrderedProduct } = require('../models');
 
 // Create a new ordered product
-exports.createOrderedProduct = async (req, res) => {
+exports.create = async (req, res) => {
   try {
     const orderedProduct = await OrderedProduct.create(req.body);
     res.status(201).json(orderedProduct);
@@ -11,7 +11,7 @@ exports.createOrderedProduct = async (req, res) => {
 };
 
 // Get all ordered products
-exports.getAllOrderedProducts = async (req, res) => {
+exports.getAll = async (req, res) => {
   try {
     const orderedProducts = await OrderedProduct.findAll();
     res.status(200).json(orderedProducts);
@@ -21,7 +21,7 @@ exports.getAllOrderedProducts = async (req, res) => {
 };
 
 // Get a single ordered product by ID
-exports.getOrderedProductById = async (req, res) => {
+exports.getById = async (req, res) => {
   try {
     const orderedProduct = await OrderedProduct.findByPk(req.params.id);
     if (orderedProduct) {
@@ -35,7 +35,7 @@ exports.getOrderedProductById = async (req, res) => {
 };
 
 // Update an ordered product by ID
-exports.updateOrderedProduct = async (req, res) => {
+exports.update = async (req, res) => {
   try {
     const [updatedRows] = await OrderedProduct.update(req.body, {
       where: { id: req.params.id },
@@ -53,7 +53,7 @@ exports.updateOrderedProduct = async (req, res) => {
 };
 
 // Delete an ordered product by ID
-exports.deleteOrderedProduct = async (req, res) => {
+exports.delete = async (req, res) => {
   try {
     const deletedRows = await OrderedProduct.destroy({ where: { id: req.params.id } });
 

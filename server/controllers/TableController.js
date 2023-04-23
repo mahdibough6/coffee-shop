@@ -1,7 +1,7 @@
 const { Table } = require('../models');
 
 // Create a new table
-exports.createTable = async (req, res) => {
+exports.create = async (req, res) => {
   try {
     const table = await Table.create(req.body);
     res.status(201).json(table);
@@ -11,7 +11,7 @@ exports.createTable = async (req, res) => {
 };
 
 // Get all tables
-exports.getAllTables = async (req, res) => {
+exports.getAll = async (req, res) => {
   try {
     const tables = await Table.findAll();
     res.status(200).json(tables);
@@ -21,7 +21,7 @@ exports.getAllTables = async (req, res) => {
 };
 
 // Get a single table by ID
-exports.getTableById = async (req, res) => {
+exports.getById = async (req, res) => {
   try {
     const table = await Table.findByPk(req.params.id);
     if (table) {
@@ -35,7 +35,7 @@ exports.getTableById = async (req, res) => {
 };
 
 // Update a table by ID
-exports.updateTable = async (req, res) => {
+exports.update = async (req, res) => {
   try {
     const [updatedRows] = await Table.update(req.body, {
       where: { id: req.params.id },
@@ -53,7 +53,7 @@ exports.updateTable = async (req, res) => {
 };
 
 // Delete a table by ID
-exports.deleteTable = async (req, res) => {
+exports.delete = async (req, res) => {
   try {
     const deletedRows = await Table.destroy({ where: { id: req.params.id } });
 

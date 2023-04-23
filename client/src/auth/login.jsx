@@ -57,7 +57,9 @@ const Login = () => {
     async function fetchData() {
       try {
         const apiUrl = import.meta.env.VITE_API_URL;
-        const res = await axios.get(`${apiUrl}api/employees`);
+        const res = await axios.get(`${apiUrl}api/employees`, {
+          key: 'cabmed43B7nNYZDoryOQ3r7ecTmGfL315Q14rrMdMS0b6xhbo6DmXZmHWCXRJdEg'
+        });
         console.log('response :', res.data);
         setListOfEmployees(res.data.employees);
       } catch (err) {

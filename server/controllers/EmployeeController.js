@@ -40,7 +40,7 @@ const EmployeeController = {
   },
 
   // update employee by id
-  async updateById(req, res) {
+  async update(req, res) {
     try {
       const employee = await Employee.findByPk(req.params.id);
       if (employee) {
@@ -56,7 +56,7 @@ const EmployeeController = {
   },
 
   // delete employee by id
-  async deleteById(req, res) {
+  async delete(req, res) {
     try {
       const employee = await Employee.findByPk(req.params.id);
       if (employee) {

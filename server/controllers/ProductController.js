@@ -1,7 +1,7 @@
 const { Product, ProductCategory } = require('../models');
 
 // Create a new product
-exports.createProduct = async (req, res) => {
+exports.create = async (req, res) => {
   try {
     const product = await Product.create(req.body);
     res.status(201).json(product);
@@ -11,7 +11,7 @@ exports.createProduct = async (req, res) => {
 };
 
 // Get all products
-exports.getAllProducts = async (req, res) => {
+exports.getAll = async (req, res) => {
   try {
     const products = await Product.findAll();
     res.status(200).json(products);
@@ -21,7 +21,7 @@ exports.getAllProducts = async (req, res) => {
 };
 
 // Get a single product by ID
-exports.getProductById = async (req, res) => {
+exports.getById = async (req, res) => {
   try {
     const product = await Product.findByPk(req.params.id);
     if (product) {
@@ -35,7 +35,7 @@ exports.getProductById = async (req, res) => {
 };
 
 // Update a product by ID
-exports.updateProduct = async (req, res) => {
+exports.update = async (req, res) => {
   try {
     const [updatedRows] = await Product.update(req.body, {
       where: { id: req.params.id },
@@ -53,7 +53,7 @@ exports.updateProduct = async (req, res) => {
 };
 
 // Delete a product by ID
-exports.deleteProduct = async (req, res) => {
+exports.delete = async (req, res) => {
   try {
     const deletedRows = await Product.destroy({ where: { id: req.params.id } });
 
@@ -67,7 +67,7 @@ exports.deleteProduct = async (req, res) => {
   }
 };
 
-exports.getProductByCat = async (req, res) => {
+exports.getByCat = async (req, res) => {
   try {
     const products = await Product.findAll({
       include: {

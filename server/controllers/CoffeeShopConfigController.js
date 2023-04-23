@@ -1,31 +1,31 @@
-const { IncomeConfig } = require('../models');
+const { CoffeeShopConfig } = require('../models');
 
 // Create a new income config
-exports.createIncomeConfig = async (req, res) => {
+exports.create = async (req, res) => {
   try {
-    const incomeConfig = await IncomeConfig.create(req.body);
-    res.status(201).json(incomeConfig);
+    const conf = await CoffeeShopConfig.create(req.body);
+    res.status(201).json(conf);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
 
 // Get all income configs
-exports.getAllIncomeConfigs = async (req, res) => {
+exports.getAll = async (req, res) => {
   try {
-    const incomeConfigs = await IncomeConfig.findAll();
-    res.status(200).json(incomeConfigs);
+    const conf = await CoffeeShopConfig.findAll();
+    res.status(200).json(conf);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
 
 // Get a single income config by ID
-exports.getIncomeConfigById = async (req, res) => {
+exports.getById = async (req, res) => {
   try {
-    const incomeConfig = await IncomeConfig.findByPk(req.params.id);
-    if (incomeConfig) {
-      res.status(200).json(incomeConfig);
+    const conf = await CoffeeShopConfig.findByPk(req.params.id);
+    if (conf) {
+      res.status(200).json(conf);
     } else {
       res.status(404).json({ message: 'Income config not found' });
     }
@@ -35,15 +35,15 @@ exports.getIncomeConfigById = async (req, res) => {
 };
 
 // Update an income config by ID
-exports.updateIncomeConfig = async (req, res) => {
+exports.update = async (req, res) => {
   try {
-    const [updatedRows] = await IncomeConfig.update(req.body, {
+    const [updatedRows] = await CoffeeShopConfig.update(req.body, {
       where: { id: req.params.id },
     });
 
     if (updatedRows) {
-      const updatedIncomeConfig = await IncomeConfig.findByPk(req.params.id);
-      res.status(200).json(updatedIncomeConfig);
+      const conf = await CoffeeShopConfig.findByPk(req.params.id);
+      res.status(200).json(conf);
     } else {
       res.status(404).json({ message: 'Income config not found' });
     }
@@ -53,9 +53,9 @@ exports.updateIncomeConfig = async (req, res) => {
 };
 
 // Delete an income config by ID
-exports.deleteIncomeConfig = async (req, res) => {
+exports.delete = async (req, res) => {
   try {
-    const deletedRows = await IncomeConfig.destroy({ where: { id: req.params.id } });
+    const deletedRows = await CoffeeShopConfig.destroy({ where: { id: req.params.id } });
 
     if (deletedRows) {
       res.status(204).json({ message: 'Income config deleted' });

@@ -14,11 +14,25 @@ module.exports = (sequelize, DataTypes) => {
       this.hasMany(models.Product , {
         foreignKey: 'productCategoryId'
       })
+      this.belongsTo(models.CoffeeShop,{
+        foreignKey: 'coffeeShopId'
+      })
     }
   }
   ProductCategory.init({
     name: DataTypes.STRING,
-    state: DataTypes.STRING
+    false: {
+      type:DataTypes.STRING,
+      defaultValue:true
+    },
+    coffeeShopId: {
+      allowNull: false,
+      type: DataTypes.INTEGER,
+      references: {
+        model: 'CoffeeShops',
+        key: 'id',
+      },
+    },
   }, {
     sequelize,
     modelName: 'ProductCategory',

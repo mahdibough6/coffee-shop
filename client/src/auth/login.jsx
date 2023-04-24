@@ -2,13 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import axios from 'axios';
 
-const SingleEmployee = ({ empl, handleSelect }) => {
+const SingleEmployee = ({ username }) => {
   return (
     <div
-      onClick={() => handleSelect(empl.username)}
+      onClick={() => handleSelect(username)}
       className=" bg-gray-400 rounded-md m-2 inline-block  p-3 cursor-pointer hover:bg-gray-300"
     >
-      <span>{empl.username}</span>
+      <span>{username}</span>
     </div>
   );
 };
@@ -16,6 +16,7 @@ const SingleEmployee = ({ empl, handleSelect }) => {
 const Login = () => {
   const apiUrl = import.meta.env.VITE_API_URL;
   const [username, setUsername] = useState('');
+  const [usernames, setUsernames] = useState('');
   const [password, setPassword] = useState('');
   const [jwtToken, setJwtToken] = useState(localStorage.getItem('jwtToken'));
   const [employee, setEmployee] = useState({
@@ -27,47 +28,76 @@ const Login = () => {
     role: null,
   });
   const [listOfEmployees, setListOfEmployees] = useState([]);
+  const [coffeeShopToken, setCoffeeShopToken] = useState('cabmed43B7nNYZDoryOQ3r7ecTmGfL315Q14rrMdMS0b6xhbo6DmXZmHWCXRJdEg')
+
   function updateToken(newToken) {
     // Save the new JWT token to local storage
     localStorage.setItem('jwtToken', newToken);
     // Update the state with the new token
     setJwtToken(newToken);
   }
+  function saveCoffeeShop(coffeeShopId) {
+    // Save the new JWT token to local storage
+    localStorage.setItem('coffeeShopId', coffeeShopId);
+    // Update the state with the new token
+  }
   const checkCredentials = async () => {
     try {
-      const res = await axios.post(`${apiUrl}login/employee`, {
+      const res = await axios.get(`${apiUrl}login/`, {
         username,
         password,
+        coffeeShopToken
       });
-      const { token, employee: empData } = res.data;
+      const { token, employee: empData , coffeeShopId: id} = res.data;
 
       if(token && empData){
         updateToken(token);
         setEmployee(empData);
+        saveCoffeeShop(id);
       }
+        console.log('response :', res.data);
     } catch (err) {
       console.error('error getting the token!', err);
     }
   };
+  const fetchUsernames = async () => {
+    try {
+      const res = await axios.get(`${apiUrl}usernames/`, {
+        coffeeShopToken
+      });
+      const { usernames: n} = res.data;
 
+      if(n){
+        setUsernames(n);
+        console.log(n)
+      }
+        console.log('response :', res.data);
+    } catch (err) {
+      console.error('error getting the token!', err);
+    }
+  };
+    useEffect(() => {
+    fetchUsernames();
+  }, []); 
   useEffect(() => {
     checkCredentials();
   }, [password]); 
+/*
   useEffect(() => {
     async function fetchData() {
       try {
         const apiUrl = import.meta.env.VITE_API_URL;
         const res = await axios.get(`${apiUrl}api/employees`, {
-          key: 'cabmed43B7nNYZDoryOQ3r7ecTmGfL315Q14rrMdMS0b6xhbo6DmXZmHWCXRJdEg'
+          token: 
         });
         console.log('response :', res.data);
-        setListOfEmployees(res.data.employees);
+        //setListOfEmployees(res.data.employees);
       } catch (err) {
         console.error(err);
       }
     }
     fetchData();
-  }, []);
+  }, []);*/
   const handleClear = () => {
     setPassword('');
   };

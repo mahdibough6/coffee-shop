@@ -1,13 +1,13 @@
 const express = require('express');
 const router = express.Router();
 
-const incomeConfigController = require('../controllers/');
+const CoffeeShopController = require('../controllers/CoffeeShopController');
 
-router.post('/', incomeConfigController.createIncomeConfig);
-router.get('/', incomeConfigController.getAllIncomeConfigs);
-router.get('/:id', incomeConfigController.getIncomeConfigById);
-router.put('/:id', incomeConfigController.updateIncomeConfig);
-router.delete('/:id', incomeConfigController.deleteIncomeConfig);
+router.post('/', CoffeeShopController.create);
+router.get('/', CoffeeShopController.getAll);
+router.get('/:id', CoffeeShopController.getById);
+router.put('/:id', CoffeeShopController.update);
+router.delete('/:id', CoffeeShopController.delete);
 
 //TODO add user preferences
 module.exports = router;

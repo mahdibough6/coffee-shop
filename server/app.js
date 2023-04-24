@@ -9,19 +9,11 @@ var cors = require ('cors');
 
 // routes
 var indexRouter = require('./routes/index');
-var clientRouter = require('./routes/clientRoutes');
-var productRoutes = require('./routes/productRoutes');
-var CoffeeShopConfigRoutes = require('./routes/CoffeeShopConfigRoutes');
-var tableRoutes = require('./routes/tableRoutes');
-var coffeeShopRoutes = require('./routes/coffeeShopRoutes');
-var orderedProductRoutes = require('./routes/orderedProductRoutes');
-var productCategoryRoutes = require('./routes/productCategoryRoutes');
-var orderRoutes = require('./routes/orderRoutes');
-var employeeRoutes = require('./routes/employeeRoutes');
 
-var loginRoutes = require('./routes/loginRoutes');
 
-const { authenticateJWT } = require('./middlewares/authenticateJWT');
+
+
+const { authenticateJWT } = require('./middleware/authenticateJWT');
 
 
 var app = express();
@@ -55,11 +47,14 @@ app.use(express.static(path.join(__dirname, 'public')));
 //here the order is important [routes area]
 app.use('/', indexRouter);
 
-const apiRoutes = require('/routes');
+const apiRoutes = require('./routes');
+const loginHandler = require('./middleware/loginHandler')
+const licenseHandler = require('./middleware/licenseHandler')
 
+app.get('/usernames', licenseHandler);
+app.get('/login', loginHandler);
 app.use('/api/*', authenticateJWT);
 app.use('/api', apiRoutes);
-app.use('/login', loginRoutes);
 
 
 // catch 404 and forward to error handler

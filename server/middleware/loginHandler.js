@@ -1,21 +1,22 @@
 const db = require('../models');
 const Employee = db.Employee;
-const CaffeeShop = db.caffeeShop;
+const CoffeeShop = db.CoffeeShop;
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
 const loginHandler = async (req, res) => {
-  const { caffeeShopToken, username, password } = req.body;
 
-  if (!caffeeShopToken || !username || !password) {
+  const { coffeeShopToken, username, password } = req.body;
+
+  if (!coffeeShopToken || !username || !password) {
     return res.status(400).json({ error: 'Invalid request body' });
   }
 
   try {
-    const caffeeShop = await CaffeeShop.findOne({ where: { key: caffeeShopToken } });
-    const caffeeShopId = caffeeShop ? caffeeShop.id : null;
+    const coffeeShop = await CoffeeShop.findOne({ where: { key: coffeeShopToken } });
+    const coffeeShopId = coffeeShop ? coffeeShop.id : null;
 
-    const employee = await Employee.findOne({ username, caffeeShopId });
+    const employee = await Employee.findOne({ username, coffeeShopId });
 
     if (!employee || employee.pwd !== password) {
       return res.status(401).json({ error: 'Invalid email or password' });

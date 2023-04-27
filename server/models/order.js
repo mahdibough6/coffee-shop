@@ -28,21 +28,33 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Order.init({
-    state: DataTypes.STRING,
+    state: {
+      type: DataTypes.STRING,
+      defaultValue:'unpaid'
+    },
     totalPrice: {
       type: DataTypes.DOUBLE //total price
     },
     tableId:{
-      type: DataTypes.INTEGER,
+      type: DataTypes.UUID,
       references: {
         model: 'Tables',
         key: 'id'
       }
     },
     employeeId:{
-      type: DataTypes.INTEGER,
+      allowNull: false,
+      type: DataTypes.UUID,
       references: {
         model: 'Employees',
+        key: 'id'
+      }
+    },
+    recipeId:{
+      allowNull: false,
+      type: DataTypes.UUID,
+      references: {
+        model: 'Recipes',
         key: 'id'
       }
     }

@@ -1,11 +1,11 @@
 const db = require('../models');
-const ProductCategory = db.ProductCategory;
+const Employee = db.Employee;
 
-const ProductCategoryController = {
+const EmployeeController = {
   // create employee
   async create(req, res) {
     try {
-      const employee = await ProductCategory.create(req.body);
+      const employee = await Employee.create(req.body);
       res.status(201).json({ employee });
     } catch (error) {
       console.log(error);
@@ -15,9 +15,8 @@ const ProductCategoryController = {
 
   // get all employees
   async getAll(req, res) {
-    const coffeeShopId = req.params.coffeeShopId;
     try {
-      const employees = await ProductCategory.findAll({where: { coffeeShopId }});
+      const employees = await Employee.findAll();
       res.status(200).json({ employees });
     } catch (error) {
       console.log(error);
@@ -27,14 +26,13 @@ const ProductCategoryController = {
 
   // get employee by id
   async getById(req, res) {
-    const id = req.parmas.id;
-    const coffeeShopId = req.parmas.coffeeShopId;
+    const id = req.params.id;
     try {
-      const employee = await ProductCategory.findOne({ where : { id, coffeeShopId } });
+      const employee = await Employee.findOne({ where : { id } });
       if (employee) {
         res.status(200).json({ employee });
       } else {
-        res.status(404).json({ message: 'ProductCategory not found' });
+        res.status(404).json({ message: 'Employee not found' });
       }
     } catch (error) {
       console.log(error);
@@ -44,15 +42,14 @@ const ProductCategoryController = {
 
   // update employee by id
   async update(req, res) {
-    const id = req.parmas.id;
-    const coffeeShopId = req.parmas.coffeeShopId;
+    const id = req.params.id;
     try {
-      const employee = await ProductCategory.findOne({ where : { id, coffeeShopId } });
+      const employee = await Employee.findOne({ where : { id } });
       if (employee) {
-        const updatedProductCategory = await employee.update(req.body);
-        res.status(200).json({ employee: updatedProductCategory });
+        const updatedEmployee = await employee.update(req.body);
+        res.status(200).json({ employee: updatedEmployee });
       } else {
-        res.status(404).json({ message: 'ProductCategory not found' });
+        res.status(404).json({ message: 'Employee not found' });
       }
     } catch (error) {
       console.log(error);
@@ -62,15 +59,14 @@ const ProductCategoryController = {
 
   // delete employee by id
   async delete(req, res) {
-    const id = req.parmas.id;
-    const coffeeShopId = req.parmas.coffeeShopId;
+    const id = req.params.id;
     try {
-      const employee = await ProductCategory.findOne({ where : { id, coffeeShopId } });
+      const employee = await Employee.findOne({ where : { id } });
       if (employee) {
         await employee.destroy();
         res.status(204).json();
       } else {
-        res.status(404).json({ message: 'ProductCategory not found' });
+        res.status(404).json({ message: 'Employee not found' });
       }
     } catch (error) {
       console.log(error);
@@ -79,4 +75,4 @@ const ProductCategoryController = {
   }
 };
 
-module.exports = ProductCategoryController;
+module.exports = EmployeeController;

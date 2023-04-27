@@ -1,25 +1,26 @@
 'use strict';
-/** @type {import('sequelize-cli').Migration} */
+
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Tables', {
+    await queryInterface.createTable('Recipes', {
       id: {
         allowNull: false,
-        autoIncrement: true,
+        defaultValue: Sequelize.UUIDV4,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.UUID
       },
-      name: {
-        type: Sequelize.STRING
+      totalPrice: {
+        type: Sequelize.DOUBLE
       },
       state: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        defaultValue: 'ongoing'
       },
-      caffeeShopId: {
+      employeeId: {
         allowNull: false,
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID,
         references: {
-          model: 'CoffeeShops',
+          model: 'Employees',
           key: 'id'
         },
       },
@@ -34,6 +35,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Tables');
+    await queryInterface.dropTable('Recipes');
   }
 };

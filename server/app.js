@@ -53,7 +53,7 @@ const licenseHandler = require('./middleware/licenseHandler')
 
 app.get('/usernames', licenseHandler);
 app.get('/login', loginHandler);
-app.use('/api/*', authenticateJWT);
+//app.use('/api/*', authenticateJWT);
 app.use('/api', apiRoutes);
 
 

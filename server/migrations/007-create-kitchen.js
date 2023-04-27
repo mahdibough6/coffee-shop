@@ -1,32 +1,26 @@
 'use strict';
-/** @type {import('sequelize-cli').Migration} */
+
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('CoffeeShops', {
+    await queryInterface.createTable('Kitchens', {
       id: {
         allowNull: false,
         defaultValue:  Sequelize.UUIDV4,
         primaryKey: true,
         type: Sequelize.UUID
       },
-      key: {
+      state: {
         type: Sequelize.STRING,
-        unique:true
+        defaultValue: 'active'
       },
-      name: {
-        type: Sequelize.STRING
-      },
-      address: {
-        type: Sequelize.STRING
-      },
-      clientId: {
+    coffeeShopId: {
         allowNull: false,
         type: Sequelize.UUID,
         references: {
-          model: 'Clients',
-          key: 'id'
-        }
-      },
+        model: 'CoffeeShops',
+        key: 'id'
+        },
+    },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
@@ -38,6 +32,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('CoffeeShops');
+    await queryInterface.dropTable('Kitchens');
   }
 };

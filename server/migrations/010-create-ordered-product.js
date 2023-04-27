@@ -5,25 +5,25 @@ module.exports = {
     await queryInterface.createTable('OrderedProducts', {
       id: {
         allowNull: false,
-        autoIncrement: true,
+        defaultValue:  Sequelize.UUIDV4,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.UUID
       },
       qte: {
+        defaultValue:1,
         type: Sequelize.INTEGER
       },
-      PaiementState: {
-        type: Sequelize.STRING //paied or not
-      },
       orderId: {
-        type: Sequelize.INTEGER,
+        allowNull: false,
+        type: Sequelize.UUID,
         references: {
           model: 'Orders',
           key: 'id'
         }
       },
-      ProductId: {
-        type: Sequelize.INTEGER,
+      productId: {
+        allowNull: false,
+        type: Sequelize.UUID,
         references: {
           model: 'Products',
           key: 'id'

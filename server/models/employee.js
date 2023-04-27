@@ -19,13 +19,15 @@ module.exports = (sequelize, DataTypes) => {
     first: DataTypes.STRING,
     last: DataTypes.STRING,
     tel: DataTypes.STRING,
+    email: DataTypes.STRING,
     username: DataTypes.STRING,
     pwd: DataTypes.STRING,
     role: DataTypes.STRING,
     printerIp: DataTypes.STRING,
     printerPort: DataTypes.STRING,
     coffeeShopId: {
-      type: DataTypes.INTEGER,
+      allowNull: false,
+      type: DataTypes.UUID,
       references: {
         model: 'CoffeeShops',
         key: 'id'

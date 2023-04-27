@@ -21,15 +21,21 @@ module.exports = (sequelize, DataTypes) => {
       this.belongsTo(models.CoffeeShop ,{
         foreignKey: 'coffeeShopId'
       })
+      this.belongsTo(models.Kitchen ,{
+        foreignKey: 'kitchenId'
+      })
       
     }
   }
   Product.init({
     name: DataTypes.STRING,
     price: DataTypes.DOUBLE,
-    state: DataTypes.STRING,
+    state: {
+      type: DataTypes.STRING,
+      defaultValue:'active'
+     } ,
     productCategoryId:{
-      type: DataTypes.INTEGER,
+      type: DataTypes.UUID,
       references: {
         model: 'ProductCategories',
         key: 'id'
@@ -37,12 +43,19 @@ module.exports = (sequelize, DataTypes) => {
     },
     coffeeShopId: {
       allowNull: false,
-      type: DataTypes.INTEGER,
+      type: DataTypes.UUID,
       references: {
         model: 'CoffeeShops',
         key: 'id',
       },
     },
+    kitchenId:{
+      type: DataTypes.UUID,
+      references: {
+        model: 'Kitchens',
+        key: 'id'
+      }
+    }
   }, {
     sequelize,
     modelName: 'Product',

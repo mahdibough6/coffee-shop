@@ -5,20 +5,19 @@ module.exports = {
     await queryInterface.createTable('CoffeeShopConfig', {
       id: {
         allowNull: false,
-        autoIncrement: true,
+        defaultValue:  Sequelize.UUIDV4,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.UUID
       },
-      startHour: {
-        type: Sequelize.TIME,
-        defaultValue:'05:00:00',
+      name: {
+        type: Sequelize.STRING
       },
-      createdAt: {
-        allowNull: false,
-        type: Sequelize.DATE
+      value: {
+        type: Sequelize.STRING
       },
       coffeeShopId:{
-        type: Sequelize.INTEGER,
+        allowNull: false,
+        type: Sequelize.UUID,
         references: {
           model:'CoffeeShops',
           key:'id'

@@ -33,8 +33,9 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       unique:true
     },
-    clientId: {
-      type: DataTypes.INTEGER,
+    cientId: {
+      allowNull: false,
+      type: DataTypes.UUID,
       references: {
         model: 'Clients',
         key: 'id'

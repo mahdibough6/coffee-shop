@@ -2,22 +2,23 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('ProductCategories', {
+    await queryInterface.createTable('Tables', {
       id: {
         allowNull: false,
-        autoIncrement: true,
+        defaultValue:  Sequelize.UUIDV4,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.UUID
       },
       name: {
         type: Sequelize.STRING
       },
       state: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        defaultValue:'reserved'
       },
-      caffeeShopId: {
+      coffeeShopId: {
         allowNull: false,
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID,
         references: {
           model: 'CoffeeShops',
           key: 'id'
@@ -34,6 +35,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('ProductCategories');
+    await queryInterface.dropTable('Tables');
   }
 };

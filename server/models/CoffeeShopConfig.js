@@ -21,7 +21,8 @@ module.exports = (sequelize, DataTypes) => {
   CoffeeShopConfig.init({
     startHour: DataTypes.TIME,
     coffeeShopId: {
-      type: DataTypes.INTEGER,
+      allowNull: false,
+      type: DataTypes.UUID,
       references: {
         model: 'CoffeeShops',
         key: 'id'

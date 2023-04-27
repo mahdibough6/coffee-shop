@@ -2,30 +2,27 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('CoffeeShops', {
+    await queryInterface.createTable('ProductCategories', {
       id: {
         allowNull: false,
         defaultValue:  Sequelize.UUIDV4,
         primaryKey: true,
         type: Sequelize.UUID
       },
-      key: {
-        type: Sequelize.STRING,
-        unique:true
-      },
       name: {
         type: Sequelize.STRING
       },
-      address: {
+      state: {
+        defaultValue:'active',
         type: Sequelize.STRING
       },
-      clientId: {
+      coffeeShopId: {
         allowNull: false,
         type: Sequelize.UUID,
         references: {
-          model: 'Clients',
+          model: 'CoffeeShops',
           key: 'id'
-        }
+        },
       },
       createdAt: {
         allowNull: false,
@@ -38,6 +35,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('CoffeeShops');
+    await queryInterface.dropTable('ProductCategories');
   }
 };

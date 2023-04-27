@@ -5,9 +5,9 @@ module.exports = {
     await queryInterface.createTable('Employees', {
       id: {
         allowNull: false,
-        autoIncrement: true,
+        defaultValue:  Sequelize.UUIDV4,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.UUID
       },
       first: {
         type: Sequelize.STRING
@@ -16,15 +16,19 @@ module.exports = {
         type: Sequelize.STRING
       },
       tel: {
+        allowNull:false,
         type: Sequelize.STRING
       },
       username: {
+        allowNull:false,
         type: Sequelize.STRING
       },
       pwd: {
+        allowNull:false,
         type: Sequelize.STRING
       },
       role: {
+        allowNull:false,
         type: Sequelize.STRING
       },
       printerIp: {
@@ -34,7 +38,8 @@ module.exports = {
         type: Sequelize.STRING
       },
       coffeeShopId: {
-        type: Sequelize.INTEGER,
+        allowNull:false,
+        type: Sequelize.UUID,
         references: {
           model: 'CoffeeShops',
           key: 'id'

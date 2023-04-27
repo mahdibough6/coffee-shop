@@ -13,13 +13,13 @@ module.exports = (sequelize, DataTypes) => {
 
   Table.init({
     name: DataTypes.STRING,
-    isActive: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: true,
+    status: {
+      type: DataTypes.STRING,
+      defaultValue: 'active',
     },
     coffeeShopId: {
       allowNull: false,
-      type: DataTypes.INTEGER,
+      type: DataTypes.UUID,
       references: {
         model: 'CoffeeShops',
         key: 'id',

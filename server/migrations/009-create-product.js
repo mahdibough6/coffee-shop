@@ -5,9 +5,9 @@ module.exports = {
     await queryInterface.createTable('Products', {
       id: {
         allowNull: false,
-        autoIncrement: true,
+        defaultValue:  Sequelize.UUIDV4,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.UUID
       },
       name: {
         type: Sequelize.STRING
@@ -16,18 +16,19 @@ module.exports = {
         type: Sequelize.DOUBLE
       },
       state: {
+        defaultValue:'active',
         type: Sequelize.STRING
       },
       productCategoryId: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID,
         references: {
           model: 'ProductCategories',
           key: 'id'
         }
       },
-      caffeeShopId: {
+      coffeeShopId: {
         allowNull: false,
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID,
         references: {
           model: 'CoffeeShops',
           key: 'id'

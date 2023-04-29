@@ -19,14 +19,14 @@ module.exports = (sequelize, DataTypes) => {
     qte: DataTypes.INTEGER,
     state: DataTypes.STRING,
     orderId: {
-      type: DataTypes.UUID,
+      type: DataTypes.INTEGER,
       references:{
         model: 'Orders',
         key:'id'
       }
     },
     productId: {
-      type: DataTypes.UUID,
+      type: DataTypes.INTEGER,
       references:{
         model: 'Products',
         key:'id'

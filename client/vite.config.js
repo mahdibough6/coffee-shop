@@ -7,5 +7,6 @@ export default defineConfig({
   optimizeDeps: {
     include: ['store-beep.mp3'],
   },
+  assetsInclude: ['**/*.html']
   
 })

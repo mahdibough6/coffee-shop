@@ -3,12 +3,12 @@
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('Employees', {
-      id: {
-        allowNull: false,
-        defaultValue:  Sequelize.UUIDV4,
-        primaryKey: true,
-        type: Sequelize.UUID
-      },
+id: {
+  allowNull: false,
+  autoIncrement: true, // set auto-increment
+  primaryKey: true,
+  type: Sequelize.INTEGER
+},
       first: {
         type: Sequelize.STRING
       },
@@ -20,6 +20,10 @@ module.exports = {
         type: Sequelize.STRING
       },
       username: {
+        allowNull:false,
+        type: Sequelize.STRING
+      },
+      email: {
         allowNull:false,
         type: Sequelize.STRING
       },
@@ -39,7 +43,7 @@ module.exports = {
       },
       coffeeShopId: {
         allowNull:false,
-        type: Sequelize.UUID,
+        type: Sequelize.INTEGER,
         references: {
           model: 'CoffeeShops',
           key: 'id'

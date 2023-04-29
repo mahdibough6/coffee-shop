@@ -6,14 +6,16 @@ require('dotenv').config();
 
 const loginHandler = async (req, res) => {
 
-  const { coffeeShopToken, username, password } = req.body;
+  console.log(req.body)
+  console.log("resquset body"+req.body)
+  const { coffeeShopKey, username, password } = req.body;
 
-  if (!coffeeShopToken || !username || !password) {
+  if (!coffeeShopKey || !username || !password) {
     return res.status(400).json({ error: 'Invalid request body' });
   }
 
   try {
-    const coffeeShop = await CoffeeShop.findOne({ where: { key: coffeeShopToken } });
+    const coffeeShop = await CoffeeShop.findOne({ where: {  coffeeShopKey } });
     const coffeeShopId = coffeeShop ? coffeeShop.id : null;
 
     const employee = await Employee.findOne({ username, coffeeShopId });
@@ -26,7 +28,7 @@ const loginHandler = async (req, res) => {
       expiresIn: '1h',
     });
 
-    res.json({ token, employee });
+    res.json({ token });
   } catch (error) {
     res.status(400).json({ error: 'Login failed' });
   }

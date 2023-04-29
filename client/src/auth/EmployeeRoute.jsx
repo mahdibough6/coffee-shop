@@ -3,7 +3,7 @@ import { useState } from 'react';
 
 
 const EmployeeRoute = () => {
-    const isAuthenticated = true;
+    const isAuthenticated = localStorage.getItem('jwt');
   if (isAuthenticated) { 
     return (
         <Outlet />

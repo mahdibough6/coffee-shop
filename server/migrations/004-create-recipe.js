@@ -5,9 +5,9 @@ module.exports = {
     await queryInterface.createTable('Recipes', {
       id: {
         allowNull: false,
-        defaultValue: Sequelize.UUIDV4,
+        defaultValue: Sequelize.INTEGER,
         primaryKey: true,
-        type: Sequelize.UUID
+        type: Sequelize.INTEGER
       },
       totalPrice: {
         type: Sequelize.DOUBLE
@@ -18,7 +18,7 @@ module.exports = {
       },
       employeeId: {
         allowNull: false,
-        type: Sequelize.UUID,
+        type: Sequelize.INTEGER,
         references: {
           model: 'Employees',
           key: 'id'

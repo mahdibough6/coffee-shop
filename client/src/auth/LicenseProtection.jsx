@@ -1,27 +1,78 @@
 import { Outlet, Navigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import usePOSStore from '../store/POSStore';
 
 const LicenseProtection = () => {
-  const [licenseKey, setLicenseKey] = useState('');
+  const [isLicensed, setIsLicensed] = useState(false);
+  const {
+    coffeeShopKey,
+    setCoffeeShopKey,
+    employees,
+    setEmployees,
+    fetchEmployees,
+  } = usePOSStore();
+
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const fetchedEmployees = await fetchEmployees();
+      console.log(fetchedEmployees)
+      if (fetchedEmployees) {
+        setEmployees(fetchedEmployees);
+        setIsLicensed(true);
+      } else {
+        setIsLicensed(false);
+        console.log(employees+' Incorrect license. Please try again.');
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   useEffect(() => {
-    // Check if the license key is present in local storage
-    const storedLicenseKey = localStorage.getItem('licenseKey');
-    if (storedLicenseKey) {
-      setLicenseKey(storedLicenseKey);
-    }
-  }, []);
+    const verifyCoffeeShopKey = async () => {
+      try {
+        if (!isLicensed && coffeeShopKey) {
+          const fetchedEmployees = await fetchEmployees();
+          if (employees) {
+            setIsLicensed(true);
+          }
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
 
-  const isAuthenticated = true /*verifyLicenseKey(licenseKey)*/;
+    verifyCoffeeShopKey();
+  }, [coffeeShopKey, setCoffeeShopKey, fetchEmployees, setEmployees, isLicensed]);
 
-  if (isAuthenticated) {
-    // Store the license key in local storage if it is valid
-    localStorage.setItem('licenseKey', licenseKey);
-
+  if (isLicensed) {
     return <Outlet />;
-  } else {
-    return <Navigate to="../employee-login/" />;
   }
+
+  return (
+    <form onSubmit={handleSubmit} className="flex flex-col justify-center items-center">
+      <label htmlFor="coffeeShopKey" className="font-bold mb-2">
+        Enter the coffee shop key:
+      </label>
+      <input
+        id="coffeeShopKey"
+        type="text"
+        value={coffeeShopKey}
+        onChange={(e) => setCoffeeShopKey(e.target.value)}
+        className={`border p-2 rounded-lg mb-4 ${
+          coffeeShopKey && !isLicensed ? 'border-red-500' : 'border-gray-400'
+        }`}
+      />
+      <button
+        type="submit"
+        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+      >
+        Submit
+      </button>
+    </form>
+  );
 };
 
 export default LicenseProtection;

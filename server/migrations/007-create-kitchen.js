@@ -3,19 +3,19 @@
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('Kitchens', {
-      id: {
-        allowNull: false,
-        defaultValue:  Sequelize.UUIDV4,
-        primaryKey: true,
-        type: Sequelize.UUID
-      },
+id: {
+  allowNull: false,
+  autoIncrement: true, // set auto-increment
+  primaryKey: true,
+  type: Sequelize.INTEGER
+},
       state: {
         type: Sequelize.STRING,
         defaultValue: 'active'
       },
     coffeeShopId: {
         allowNull: false,
-        type: Sequelize.UUID,
+        type: Sequelize.INTEGER,
         references: {
         model: 'CoffeeShops',
         key: 'id'

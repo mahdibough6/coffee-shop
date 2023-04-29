@@ -1,18 +1,27 @@
-const jwt = require('jsonwebtoken');
-const {getKey} = require('../controller/CoffeeShopController')
+const { CoffeeShop } = require('../models');
+
 require('dotenv').config()
 
-function verifyCoffeeShop(req, res, next) {
-  const cskey = req.headers.cskey;
-  const coffeeShopId  = req.params.id;
-      if (cskey && cskey == getKey(coffeeShopId)) {
-        next();
-      }
+const verifyCoffeeShopKey = async (req, res, next) => {
+  console.log("-----------------------------------------------")
+  console.log("from the middleware")
+  console.log("-----------------------------------------------")
+  const { coffeeShopKey } = req.body;
+  
+  const coffeeShop = await CoffeeShop.findOne({ where: { key: coffeeShopKey } });
 
-  else {
-    res.sendStatus(401); // Unauthorized
+  if (coffeeShop) {
+    req.coffeeShopId = coffeeShop.id;
+    next();
+  } else {
+
+  console.log("-----------------------------------------------")
+  console.log("authorization problem")
+  console.log("-----------------------------------------------")
+    res.status(401).json({ error: 'Invalid key' });
   }
-}
+};
 
-module.exports = verifyCoffeeShop;
+
+module.exports = verifyCoffeeShopKey;
 

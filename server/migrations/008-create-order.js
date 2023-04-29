@@ -3,22 +3,22 @@
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('Orders', {
-      id: {
-        allowNull: false,
-        defaultValue:  Sequelize.UUIDV4,
-        primaryKey: true,
-        type: Sequelize.UUID
-      },
+id: {
+  allowNull: false,
+  autoIncrement: true, // set auto-increment
+  primaryKey: true,
+  type: Sequelize.INTEGER
+},
       employeeId: {
         allowNull: false,
-        type: Sequelize.UUID,
+        type: Sequelize.INTEGER,
         references: {
           model: 'Employees',
           key: 'id'
         },
       },
       tableId: {
-        type: Sequelize.UUID,
+        type: Sequelize.INTEGER,
         references: {
           model: 'Tables',
           key: 'id'

@@ -35,7 +35,7 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue:'active'
      } ,
     productCategoryId:{
-      type: DataTypes.UUID,
+      type: DataTypes.INTEGER,
       references: {
         model: 'ProductCategories',
         key: 'id'
@@ -43,14 +43,14 @@ module.exports = (sequelize, DataTypes) => {
     },
     coffeeShopId: {
       allowNull: false,
-      type: DataTypes.UUID,
+      type: DataTypes.INTEGER,
       references: {
         model: 'CoffeeShops',
         key: 'id',
       },
     },
     kitchenId:{
-      type: DataTypes.UUID,
+      type: DataTypes.INTEGER,
       references: {
         model: 'Kitchens',
         key: 'id'

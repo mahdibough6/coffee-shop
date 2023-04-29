@@ -27,7 +27,7 @@ module.exports = (sequelize, DataTypes) => {
     printerPort: DataTypes.STRING,
     coffeeShopId: {
       allowNull: false,
-      type: DataTypes.UUID,
+      type: DataTypes.INTEGER,
       references: {
         model: 'CoffeeShops',
         key: 'id'

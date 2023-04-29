@@ -5,6 +5,7 @@ import NavBar from '../components/NavBar';
 import Orders from '../components/Orders';
 import beep from '../assets/store-beep.mp3'
 
+
 const POS = () => {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [windowHeight, setWindowHeight] = useState(window.innerHeight);
@@ -56,7 +57,7 @@ const POS = () => {
               <Orders n={40} />
             </div>
           </div>
-          <div className="test h-[199px]">
+          <div className="test h-[180px]">
             <div className="grid">
               <div
                 onClick={handleClick}

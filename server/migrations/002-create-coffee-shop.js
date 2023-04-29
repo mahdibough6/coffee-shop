@@ -3,14 +3,15 @@
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('CoffeeShops', {
-      id: {
-        allowNull: false,
-        defaultValue:  Sequelize.UUIDV4,
-        primaryKey: true,
-        type: Sequelize.UUID
-      },
-      key: {
+id: {
+  allowNull: false,
+  autoIncrement: true, // set auto-increment
+  primaryKey: true,
+  type: Sequelize.INTEGER
+},
+      coffeeShopkey: {
         type: Sequelize.STRING,
+        allowNull:false,
         unique:true
       },
       name: {
@@ -21,7 +22,7 @@ module.exports = {
       },
       clientId: {
         allowNull: false,
-        type: Sequelize.UUID,
+        type: Sequelize.INTEGER,
         references: {
           model: 'Clients',
           key: 'id'

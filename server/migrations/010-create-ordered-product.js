@@ -3,19 +3,19 @@
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('OrderedProducts', {
-      id: {
-        allowNull: false,
-        defaultValue:  Sequelize.UUIDV4,
-        primaryKey: true,
-        type: Sequelize.UUID
-      },
+id: {
+  allowNull: false,
+  autoIncrement: true, // set auto-increment
+  primaryKey: true,
+  type: Sequelize.INTEGER
+},
       qte: {
         defaultValue:1,
         type: Sequelize.INTEGER
       },
       orderId: {
         allowNull: false,
-        type: Sequelize.UUID,
+        type: Sequelize.INTEGER,
         references: {
           model: 'Orders',
           key: 'id'
@@ -23,7 +23,7 @@ module.exports = {
       },
       productId: {
         allowNull: false,
-        type: Sequelize.UUID,
+        type: Sequelize.INTEGER,
         references: {
           model: 'Products',
           key: 'id'

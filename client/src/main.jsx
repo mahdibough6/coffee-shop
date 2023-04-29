@@ -8,6 +8,7 @@ import EmployeeRoute from './auth/EmployeeRoute';
 import POS from './pages/POS'
 import EmployeeLogin from './auth/EmployeeLogin';
 import LicenseProtection from './auth/LicenseProtection';
+import PrinterTest from './pages/PrinterTest';
 
 const router = createBrowserRouter([
   {
@@ -41,6 +42,10 @@ const router = createBrowserRouter([
   {
     path: 'home/',
     element: <Home />,
+  },
+  {
+    path: 'print/',
+    element: <PrinterTest />,
   },
 ]);
 

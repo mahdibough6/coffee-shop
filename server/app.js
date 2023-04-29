@@ -26,13 +26,13 @@ app.set('view engine', 'jade');
 
 // Set up the CORS options
 const corsOptions = {
-  origin: process.env.REACT_APP_URL,
-  optionsSuccessStatus: 200,
-  credentials: true
+//  origin: process.env.REACT_APP_URL,
+//  optionsSuccessStatus: 200,
+//  credentials: true
 };
 
 // Use the CORS middleware with the specified options
-app.use(cors(corsOptions));
+app.use(cors());
 
 
 app.use(logger('dev'));
@@ -48,12 +48,17 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 
 const apiRoutes = require('./routes');
+const protectedEmployeesRouter = require('./protected-routes/employees')
 const loginHandler = require('./middleware/loginHandler')
-const licenseHandler = require('./middleware/licenseHandler')
+const licenseHandler = require('./middleware/licenseHandler');
 
-app.get('/usernames', licenseHandler);
-app.get('/login', loginHandler);
-//app.use('/api/*', authenticateJWT);
+app.use('/protected', protectedEmployeesRouter)
+
+//app.get('/usernames', licenseHandler);
+app.post('/login', loginHandler);
+
+
+app.use('/api/*', authenticateJWT);
 app.use('/api', apiRoutes);
 
 

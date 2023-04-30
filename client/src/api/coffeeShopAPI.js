@@ -29,4 +29,19 @@ export const authenticate = async (coffeeShopKey, username, password) => {
   }
 };
 
+export const authenticateClient = async (username, password) => {
+  try {
+    const response = await axiosInstance.post(`/client-login`, 
+      {
+        username,
+        password
+      }
+    );
+    return response;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+
 

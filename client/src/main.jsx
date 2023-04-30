@@ -1,14 +1,19 @@
-import React from 'react';
+import React, { Children } from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
 import './index.css';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Home from './home';
 import EmployeeRoute from './auth/EmployeeRoute';
-import POS from './pages/POS'
+import POS from './pages/POS';
 import EmployeeLogin from './auth/EmployeeLogin';
 import LicenseProtection from './auth/LicenseProtection';
 import PrinterTest from './pages/PrinterTest';
+import Switcher from './components/Switcher';
+import POSSwitcher from './components/POSSwitcher';
+import ClientLogin from './auth/ClientLogin';
+import ClientSwitcher from './components/ClientSwitcher';
+import ClientRoute from './auth/ClientRoute';
 
 const router = createBrowserRouter([
   {
@@ -21,24 +26,39 @@ const router = createBrowserRouter([
         children: [
           {
             path: '',
-            element: <POS />,
+            element: <POSSwitcher />,
           },
         ],
       },
       {
         path: 'employee-login/',
-        element: <LicenseProtection/>,
-        children:[
-            {
-              path: '',
-              element: <EmployeeLogin />,
-            },
-        ]
+        element: <LicenseProtection />,
+        children: [
+          {
+            path: '',
+            element: <EmployeeLogin />,
+          },
+        ],
       },
-
     ],
   },
+  {
+    path: 'login/',
+    element: <ClientLogin />,
+    
+  },
 
+  {
+    path: 'dashboard/',
+    element: <ClientRoute/>,
+    children:[
+      {
+        path: '',
+        element: <ClientSwitcher />,
+}
+]
+
+  },
   {
     path: 'home/',
     element: <Home />,

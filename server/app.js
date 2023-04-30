@@ -50,9 +50,10 @@ app.use('/', indexRouter);
 const apiRoutes = require('./routes');
 const protectedEmployeesRouter = require('./protected-routes/employees')
 const loginHandler = require('./middleware/loginHandler')
-const licenseHandler = require('./middleware/licenseHandler');
+const clientLoginRoute = require('./protected-routes/client-login')
 
 app.use('/protected', protectedEmployeesRouter)
+app.use('/client-login',clientLoginRoute )
 
 //app.get('/usernames', licenseHandler);
 app.post('/login', loginHandler);

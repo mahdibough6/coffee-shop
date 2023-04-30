@@ -29,7 +29,7 @@ module.exports = (sequelize, DataTypes) => {
   CoffeeShop.init({
     name: DataTypes.STRING,
     address: DataTypes.STRING,
-    key: {
+    coffeeShopKey: {
       type: DataTypes.STRING,
       unique:true
     },

@@ -19,6 +19,16 @@ id: {
         defaultValue:'active',
         type: Sequelize.STRING
       },
+      image: {
+        type: Sequelize.STRING
+      },
+      kitchenId: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Kitchens',
+          key: 'id'
+        }
+      },
       productCategoryId: {
         type: Sequelize.INTEGER,
         references: {

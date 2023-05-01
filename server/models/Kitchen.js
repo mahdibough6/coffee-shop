@@ -24,6 +24,9 @@ module.exports = (sequelize, DataTypes) => {
       type :DataTypes.STRING,
       defaultValue:'active'
     },
+    printer: {
+      type: DataTypes.STRING,
+    },
     coffeeShopId: {
       type: DataTypes.INTEGER,
       references: {

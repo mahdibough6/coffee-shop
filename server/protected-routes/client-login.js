@@ -9,7 +9,8 @@ router.post('/', async (req, res) => {
 
   try {
     const client = await Client.findOne({ where: { username : username } });
-    const coffeeShopId = await CoffeeShop.findOne({ where: { clientId:client.id } });
+    const coffeeShop = await CoffeeShop.findOne({ where: { clientId:client.id } });
+    const coffeeShopId = coffeeShop.id;
 
     if (!client || client.pwd !== password) {
       return res.status(401).json({ error: 'Invalid email or password' });

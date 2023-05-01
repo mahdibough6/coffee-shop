@@ -1,9 +1,8 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage, devtools } from 'zustand/middleware';
 import { authenticateClient, fetchEmployees } from '../api/coffeeShopAPI';
-import zukeeper from 'zukeeper'
 
-const useClientStore = create(
+const usePOSConfigStore = create(
     persist(
       (set, get) => ({
         currentTab:'dashboard',
@@ -16,7 +15,7 @@ const useClientStore = create(
         
       }),
       {
-        name: 'client-store', // Name of the item in the storage (must be unique)
+        name: 'test-store', // Name of the item in the storage (must be unique)
         version: "1.0.6", // Optional version number for migrations
         storage: createJSONStorage(() => localStorage), // Optional storage type (defaults to localStorage)
         partialize: (state) =>
@@ -28,4 +27,4 @@ const useClientStore = create(
 )
 ;
 
-export default useClientStore;
+export default usePOSConfigStore;

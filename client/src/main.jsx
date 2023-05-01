@@ -14,6 +14,10 @@ import POSSwitcher from './components/POSSwitcher';
 import ClientLogin from './auth/ClientLogin';
 import ClientSwitcher from './components/ClientSwitcher';
 import ClientRoute from './auth/ClientRoute';
+import Dashboard from './pages/Dashboard';
+import MobileDashboard from './pages/MobileDashboard';
+import Products from './components/desktop/products/Products';
+import AddProduct from './components/desktop/products/AddProduct';
 
 const router = createBrowserRouter([
   {
@@ -48,13 +52,37 @@ const router = createBrowserRouter([
     
   },
 
+
   {
-    path: 'dashboard/',
+    path: 'pm-panel/',
     element: <ClientRoute/>,
     children:[
       {
         path: '',
         element: <ClientSwitcher />,
+        children:[
+          {
+            path: 'desktop/',
+            element: <Dashboard/>,
+            children:[
+              {
+                path:'dashboard/'
+              },
+              {
+                path:'products/',
+                element: <Products/>
+              },
+              {
+                path:'products/new-product/',
+                element: <AddProduct/>
+              },
+            ]
+          },
+          {
+            path: 'mobile/',
+            element: <MobileDashboard/>
+          }
+        ]
 }
 ]
 

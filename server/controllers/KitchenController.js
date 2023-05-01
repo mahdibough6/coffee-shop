@@ -1,4 +1,4 @@
-const { Kitchen } = require('../models');
+const { Kitchen, Product } = require('../models');
 
 // Create a new kitchen appliance
 exports.create = async (req, res) => {
@@ -24,6 +24,23 @@ exports.getAll = async (req, res) => {
 exports.getById = async (req, res) => {
   try {
     const kitchen = await Kitchen.findByPk(req.params.id);
+    if (kitchen) {
+      res.status(200).json(kitchen);
+    } else {
+      res.status(404).json({ message: 'Kitchen appliance not found' });
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+exports.getProductKitchen = async (req, res) => {
+  const productId = req.params.productId;
+  try {
+
+    const product = await Product.findOne({where:{id:productId}});
+    const kitchenId = product.kitchenId;
+    const kitchen = await Kitchen.findByPk(kitchenId);
+
     if (kitchen) {
       res.status(200).json(kitchen);
     } else {

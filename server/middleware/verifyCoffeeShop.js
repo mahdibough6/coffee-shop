@@ -8,7 +8,7 @@ const verifyCoffeeShopKey = async (req, res, next) => {
   console.log("-----------------------------------------------")
   const { coffeeShopKey } = req.body;
   
-  const coffeeShop = await CoffeeShop.findOne({ where: { key: coffeeShopKey } });
+  const coffeeShop = await CoffeeShop.findOne({ where: { coffeeShopKey } });
 
   if (coffeeShop) {
     req.coffeeShopId = coffeeShop.id;

@@ -13,6 +13,9 @@ id: {
         type: Sequelize.STRING,
         defaultValue: 'active'
       },
+      printer: {
+        type: Sequelize.STRING,
+      },
     coffeeShopId: {
         allowNull: false,
         type: Sequelize.INTEGER,

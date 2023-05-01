@@ -67,17 +67,66 @@ exports.delete = async (req, res) => {
   }
 };
 
-exports.getByCat = async (req, res) => {
+exports.getByCatAndCoffeeShopId = async (req, res) => {
   try {
     const products = await Product.findAll({
-      include: {
-        model: ProductCategory,
-        where: { id: req.params.id },
+      where: {
+        productCategoryId: req.params.productCategoryId,
+        coffeeShopId: req.params.coffeeShopId,
       },
     });
     res.status(200).json(products);
   } catch (error) {
     console.log('Error retrieving products by category:', error.message);
+    res.status(500).json({ error: error.message });
+  }
+};
+
+exports.getByCoffeeShopId = async (req, res) => {
+  try {
+    const products = await Product.findAll({
+      where: {
+        coffeeShopId: req.params.coffeeShopId
+      }
+    });
+    if (products.length > 0) {
+      res.status(200).json(products);
+    } else {
+      res.status(404).json({ message: 'No products found for this coffee shop' });
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+exports.deactivateProduct = async (req, res) => {
+  const { productId, coffeeShopId } = req.body;
+  try {
+    const product = await Product.findOne({ where: { id: productId, coffeeShopId } });
+    if (!product) {
+      res.status(404).json({ message: 'Product not found' });
+    } else {
+      product.state = 'inactive';
+      await product.save();
+      res.status(200).json({ message: 'Product deactivated successfully' });
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+exports.activateProduct = async (req, res) => {
+  const { productId, coffeeShopId } = req.body;
+  try {
+    const product = await Product.findOne({ where: { id: productId, coffeeShopId } });
+    if (!product) {
+      res.status(404).json({ message: 'Product not found' });
+    } else {
+      product.state = 'active';
+      await product.save();
+      res.status(200).json({ message: 'Product activated successfully' });
+    }
+  } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };

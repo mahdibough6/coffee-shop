@@ -35,11 +35,8 @@ id: {
         allowNull:false,
         type: Sequelize.STRING
       },
-      printerIp: {
-        type: Sequelize.STRING
-      },
-      printerPort: {
-        type: Sequelize.STRING
+      printer: {
+        type: Sequelize.STRING,
       },
       coffeeShopId: {
         allowNull:false,

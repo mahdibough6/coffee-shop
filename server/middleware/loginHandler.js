@@ -6,8 +6,9 @@ require('dotenv').config();
 
 const loginHandler = async (req, res) => {
 
+  console.log("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
   console.log(req.body)
-  console.log("resquset body"+req.body)
+  console.log("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
   const { coffeeShopKey, username, password } = req.body;
 
   if (!coffeeShopKey || !username || !password) {
@@ -18,7 +19,7 @@ const loginHandler = async (req, res) => {
     const coffeeShop = await CoffeeShop.findOne({ where: {  coffeeShopKey } });
     const coffeeShopId = coffeeShop ? coffeeShop.id : null;
 
-    const employee = await Employee.findOne({ username, coffeeShopId });
+    const employee = await Employee.findOne({where: { username, coffeeShopId }});
 
     if (!employee || employee.pwd !== password) {
       return res.status(401).json({ error: 'Invalid email or password' });

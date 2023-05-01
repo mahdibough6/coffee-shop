@@ -1,6 +1,7 @@
-import { Outlet, Navigate } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { Form, Input, Button } from 'antd';
+import { useState, useEffect, useCallback } from 'react';
 import usePOSStore from '../store/POSStore';
+import { Outlet } from 'react-router-dom';
 
 const LicenseProtection = () => {
   const [isLicensed, setIsLicensed] = useState(false);
@@ -12,9 +13,7 @@ const LicenseProtection = () => {
     fetchEmployees,
   } = usePOSStore();
 
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const onFinish = useCallback(async () => {
     try {
       const fetchedEmployees = await fetchEmployees();
       console.log(fetchedEmployees)
@@ -28,7 +27,7 @@ const LicenseProtection = () => {
     } catch (error) {
       console.error(error);
     }
-  };
+  }, [fetchEmployees, setEmployees, employees]);
 
   useEffect(() => {
     const verifyCoffeeShopKey = async () => {
@@ -52,26 +51,26 @@ const LicenseProtection = () => {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col justify-center items-center">
-      <label htmlFor="coffeeShopKey" className="font-bold mb-2">
-        Enter the coffee shop key:
-      </label>
-      <input
-        id="coffeeShopKey"
-        type="text"
-        value={coffeeShopKey}
-        onChange={(e) => setCoffeeShopKey(e.target.value)}
-        className={`border p-2 rounded-lg mb-4 ${
-          coffeeShopKey && !isLicensed ? 'border-red-500' : 'border-gray-400'
-        }`}
-      />
-      <button
-        type="submit"
-        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-      >
-        Submit
-      </button>
-    </form>
+    <div className="flex flex-col justify-center items-center">
+      <Form onFinish={onFinish} className="w-80">
+        <Form.Item
+          label="Enter the coffee shop key:"
+          name="coffeeShopKey"
+          rules={[{ required: true, message: 'Please enter the coffee shop key' }]}
+        >
+          <Input
+            value={coffeeShopKey}
+            onChange={(e) => setCoffeeShopKey(e.target.value)}
+            className="rounded-full bg-gray-200 focus:bg-white border-0 focus:border-blue-500 focus:ring-0"
+          />
+        </Form.Item>
+        <Form.Item>
+          <Button  className="bg-green-100 border-2 border-green-400 text-green-700 hover:bg-red-200" htmlType="submit" >
+            Submit
+          </Button>
+        </Form.Item>
+      </Form>
+    </div>
   );
 };
 

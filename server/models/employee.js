@@ -23,8 +23,7 @@ module.exports = (sequelize, DataTypes) => {
     username: DataTypes.STRING,
     pwd: DataTypes.STRING,
     role: DataTypes.STRING,
-    printerIp: DataTypes.STRING,
-    printerPort: DataTypes.STRING,
+    printer: DataTypes.STRING,
     coffeeShopId: {
       allowNull: false,
       type: DataTypes.INTEGER,

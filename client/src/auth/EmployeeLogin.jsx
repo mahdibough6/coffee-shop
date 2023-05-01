@@ -37,6 +37,7 @@ const handleAuthentication = async () => {
     if (response.status === 200) {
       const token = response.data.token; // assuming that the JWT is returned in the response as a 'token' field
       localStorage.setItem('jwt', token);
+      console.log("login in +++++++++++++++++++++++++++++++++++")
       navigate('../pos');
 
     } else {

@@ -11,7 +11,8 @@ router.post('/employees', verifyCoffeeShopKey, async (req, res) => {
     const employees = await Employee.findAll({
       where: { coffeeShopId: req.coffeeShopId },
     });
-    res.status(200).json(employees);
+    const coffeeShopId = req.coffeeShopId;
+    res.status(200).json({employees, coffeeShopId});
     console.log(employees)
   } catch (error) {
     res.status(500).json({ error: error.message });

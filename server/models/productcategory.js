@@ -21,10 +21,11 @@ module.exports = (sequelize, DataTypes) => {
   }
   ProductCategory.init({
     name: DataTypes.STRING,
-    status: {
+    state: {
       type:DataTypes.STRING,
       defaultValue:'active'
     },
+    image: DataTypes.STRING,
     coffeeShopId: {
       allowNull: false,
       type: DataTypes.INTEGER,

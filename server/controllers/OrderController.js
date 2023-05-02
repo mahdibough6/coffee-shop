@@ -1,6 +1,7 @@
 const { Order, Employee, Table, Product } = require('../models');
 // Create a new order
 exports.create = async (req, res) => {
+    console.log("+ ++++++++++++++++++++++++++++++++++++++ +", req.body)
   try {
     const order = await Order.create(req.body);
     res.status(201).json(order);

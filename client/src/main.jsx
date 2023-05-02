@@ -18,6 +18,7 @@ import Dashboard from './pages/Dashboard';
 import MobileDashboard from './pages/MobileDashboard';
 import Products from './components/desktop/products/Products';
 import AddProduct from './components/desktop/products/AddProduct';
+import AddCategory from './components/desktop/categories/AddCategory';
 
 const router = createBrowserRouter([
   {
@@ -76,6 +77,35 @@ const router = createBrowserRouter([
                 path:'products/new-product/',
                 element: <AddProduct/>
               },
+              /*
+              {
+                path:'categories/',
+                element: <Categories/>
+              },
+              {
+                path:'categories/new-category/',
+                element: <AddCategory/>
+              },
+              {
+                path:'kitchens/',
+                element: <Kitchens/>
+              },
+              {
+                path:'Kitchen/new-kitchen/',
+                element: <AddKitchen/>
+              },
+              {
+                path:'Accounts/',
+                element: <Accounts/>
+              },
+              {
+                path:'Accounts/new-account/',
+                element: <AddAccount/>
+              },
+              {
+                path:'Recipes/',
+                element: <Recipes/>
+              },*/
             ]
           },
           {

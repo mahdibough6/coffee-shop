@@ -3,43 +3,47 @@
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('OrderedProducts', {
-id: {
-  allowNull: false,
-  autoIncrement: true, // set auto-increment
-  primaryKey: true,
-  type: Sequelize.INTEGER
-},
+      id: {
+        allowNull: false,
+        autoIncrement: true, // set auto-increment
+        primaryKey: true,
+        type: Sequelize.INTEGER,
+      },
       qte: {
-        defaultValue:1,
-        type: Sequelize.INTEGER
+        defaultValue: 1,
+        type: Sequelize.INTEGER,
+      },
+      state: {
+        type: Sequelize.STRING,
+        defaultValue: 'proceeded'
       },
       orderId: {
         allowNull: false,
         type: Sequelize.INTEGER,
         references: {
           model: 'Orders',
-          key: 'id'
-        }
+          key: 'id',
+        },
       },
       productId: {
         allowNull: false,
         type: Sequelize.INTEGER,
         references: {
           model: 'Products',
-          key: 'id'
-        }
+          key: 'id',
+        },
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE
-      }
+        type: Sequelize.DATE,
+      },
     });
   },
   async down(queryInterface, Sequelize) {
     await queryInterface.dropTable('OrderedProducts');
-  }
+  },
 };

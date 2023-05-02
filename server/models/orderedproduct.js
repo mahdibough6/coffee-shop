@@ -17,7 +17,10 @@ module.exports = (sequelize, DataTypes) => {
   }
   OrderedProduct.init({
     qte: DataTypes.INTEGER,
-    state: DataTypes.STRING,
+    state: {
+      type: DataTypes.STRING,
+      defaultValue: 'proceeded' // can be ether canceled or proceeded
+    },
     orderId: {
       type: DataTypes.INTEGER,
       references:{

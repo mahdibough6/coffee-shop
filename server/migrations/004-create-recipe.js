@@ -16,6 +16,14 @@ module.exports = {
         type: Sequelize.STRING,
         defaultValue: 'ongoing'
       },
+      coffeeShopId: {
+        allowNull: false,
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'CoffeeShops',
+          key: 'id'
+        },
+      },
       employeeId: {
         allowNull: false,
         type: Sequelize.INTEGER,

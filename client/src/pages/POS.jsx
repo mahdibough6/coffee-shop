@@ -7,7 +7,8 @@ import beep from '../assets/store-beep.mp3';
 import usePOSStore from '../store/POSStore';
 import { useNavigate } from 'react-router-dom';
 import PrinterConfig from '../components/PrinterConfig';
-import { getKitchenByProductId } from '../api/coffeeShopAPI';
+import { getKitchenByProductId, latestOngoingRecipe, createOrder, createOrderedProduct, getKitchenById } from '../api/coffeeShopAPI';
+import { calculateTotalPrice, summarizeProducts } from '../utils/helpers';
 
 const POS = () => {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
@@ -18,30 +19,46 @@ const POS = () => {
     currentRecipe,
     setCurrentCategory,
     addProduct,
+    setOrderedProducts,
     orderedProducts,
     clearOrderedProducts,
     currentEmployee,
     kitchen,
+    removeProduct,
     setKitchen,
   } = usePOSStore();
 
+  const [totalPrice, setTotalPrice] = useState(calculateTotalPrice(orderedProducts))
+  useEffect(()=>{
+    setTotalPrice(calculateTotalPrice(orderedProducts))
+  }, [orderedProducts])
   const [sound, setSound] = useState(0);
 
   const handleOrderSubmit = async () => {
-    const recipeId = currentRecipe.id;
+    if (orderedProducts.length === 0) {
+      console.error("No ordered products found.");
+      // Handle the empty orderedProducts array case here, e.g., show an error message or disable the submit button
+      return;
+    }
     const employeeId = currentEmployee.id;
 
     try {
-      // Create a new order in the database and retrieve its ID.
-      const orderId = await createOrder(recipeId, employeeId);
+      //find or create an ongoing recipe  
+      const response = await latestOngoingRecipe(coffeeShopId, employeeId)
+      const recipeId = response.data.id;
+      console.log('recipe id', recipeId)
+      
+      //calculate the total price of the current order 
+
+      // Create a new order in the database and retrieve it.
+      const order = await createOrder({employeeId, recipeId , totalPrice, isPaid:true});
+      const orderId = order.id
 
       // Group the ordered items by kitchen.
       const productsByKitchen = {};
       try {
-        for (const { id, qte } of orderedProducts) {
-          const response = await getKitchenByProductId(id);
-          const kitchen = response.data.kitchen;
-          const kitchenId = kitchen.id;
+        for (const { id, qte, kitchenId } of summarizeProducts(orderedProducts) ) {
+          console.log("qqqqqqqqqqqqqqqqqqqqqqqqqq",summarizeProducts(orderedProducts))
       
           console.log(`Kitchen ID for product ${id}:`, kitchenId);
       
@@ -51,25 +68,30 @@ const POS = () => {
           productsByKitchen[kitchenId].push({ id, qte });
         }
       } catch (error) {
-        console.error('An error occurred while processing ordered products:', error);
+        console.error('An error occurred while processing ordered products: ', error);
       }
       
 
       // Create the ordered items in the database and print them for each kitchen.
       let allItemsCreated = true;
       for (const [kitchenId, products] of Object.entries(productsByKitchen)) {
-        const printerName = await getPrinterNameByKitchenId(kitchenId);
+        const response = await getKitchenById(kitchenId);
+        console.log("fffff",response)
+        const printerName = response.data.printer; 
         let printContent = `Kitchen: ${kitchenId}\nPrinter: ${printerName}\n\nItems:\n`;
 
+          console.log("++++++++++product++++++++++",products)
         for (const { id, qte } of products) {
+
           
-          const success = await createOrderedProduct(id, qte, orderId);
+
+          const success = await createOrderedProduct({productId:id, qte, orderId});
           if (!success) {
             allItemsCreated = false;
             break;
           }
           // Add the ordered item to the print content.
-          printContent += `Item ${itemId}, Quantity ${quantity}\n`;
+          printContent += `Item ${id}, Quantity ${qte}\n`;
         }
 
         //Print the content using the printer name.
@@ -90,6 +112,7 @@ const POS = () => {
         // Clear the items from the Zustand store if all ordered items are created in the database.
         clearOrderedProducts();
         console.log('Order created successfully');
+setSound(sound + 1);
       } else {
         console.log('Error creating some ordered items');
       }
@@ -103,7 +126,9 @@ const POS = () => {
   }, [sound]);
   const makeBeep = () => {
     new Audio(beep).play();
+
   };
+ 
 
   useEffect(() => {
     const handleResize = () => {
@@ -123,11 +148,8 @@ const POS = () => {
       window.removeEventListener('resize', handleResize);
     };
   }, []);
+ 
 
-  const handleClick = () => {
-    setSound(sound + 1);
-    console.log('beep !');
-  };
   return (
     <div className="flex flex-col h-screen">
       <NavBar />
@@ -140,16 +162,16 @@ const POS = () => {
                 'overflow-y-auto  pt-0 h-full w-full overflow-y-scroll'
               }
             >
-              <Orders orderedProducts={orderedProducts} />
+              <Orders orderedProducts={orderedProducts} removeProduct={removeProduct} />
             </div>
           </div>
           <div className="border-l-4 border-green-400 h-[180px]">
             <div className="grid">
               <div
-                onClick={handleClick}
+                onClick={handleOrderSubmit}
                 className="col-span-3 text-center p-3 font-bold bg-green-600 text-white   rounded m-2 "
               >
-                {'120.00'}
+                {totalPrice.toFixed(2)}
               </div>
               <div
                 className={

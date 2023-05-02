@@ -21,13 +21,13 @@ export const summarizeProducts = (productList) => {
   productList.forEach((productItem) => {
     if (productSummary.hasOwnProperty(productItem.id)) {
       // If the product already exists, increase its quantity and total price
-      productSummary[productItem.id].quantity += 1;
+      productSummary[productItem.id].qte += 1;
       productSummary[productItem.id].price += productItem.price;
     } else {
       // If the product doesn't exist, add it with an initial quantity of 1 and the initial price
       productSummary[productItem.id] = {
         ...productItem,
-        quantity: 1,
+        qte: 1,
         totalPrice: productItem.price,
       };
     }
@@ -51,4 +51,13 @@ export function setAutoLogoutTimer(expirationTime) {
     clearSession();
     navigate('../employee-login')
   }, expirationTime * 1000);
+}
+export function calculateTotalPrice(products) {
+  let totalPrice = 0;
+
+  for (const product of products) {
+    totalPrice += product.price;
+  }
+
+  return totalPrice;
 }

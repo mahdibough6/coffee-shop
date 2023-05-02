@@ -17,6 +17,9 @@ module.exports = (sequelize, DataTypes) => {
       this.belongsTo(models.Employee, {
         foreignKey:'employeeId'
       })
+      this.belongsTo(models.CoffeeShop, {
+        foreignKey:'coffeeShopId'
+      })
       
     }
   }
@@ -25,6 +28,14 @@ module.exports = (sequelize, DataTypes) => {
     state: {
         type: DataTypes.STRING,
         defaultValue:'ongoing'
+    },
+    coffeeShopId: {
+      allowNull:false,
+      type: DataTypes.INTEGER,
+      references: {
+        model: 'CoffeeShops',
+        key: 'id'
+      }
     },
     employeeId: {
       allowNull:false,

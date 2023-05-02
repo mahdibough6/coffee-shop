@@ -17,6 +17,13 @@ id: {
           key: 'id'
         },
       },
+      recipeId: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Recipes',
+          key: 'id'
+        },
+      },
       tableId: {
         type: Sequelize.INTEGER,
         references: {
@@ -24,8 +31,20 @@ id: {
           key: 'id'
         },
       },
+      coffeeShopId: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'CoffeeShops',
+          key: 'id'
+        },
+      },
+      isPaid:{
+        type: Sequelize.BOOLEAN,
+        defaultValue: false 
+      },
       state: {
-         type:Sequelize.STRING, defaultValue:'unpaid' //card , cashKeeper, paied (if all the proudcts in this order are paid)
+         type:Sequelize.STRING, 
+         defaultValue: 'proceeded' // can be ether canceled or proceeded
       },
       totalPrice: {
         type: Sequelize.DOUBLE //total price

@@ -1,8 +1,9 @@
 import React from 'react'
+import UnderDevelopment from '../components/UnderDevelopement'
 
 function MobileDashboard() {
   return (
-    <div>MobileDashboard</div>
+    <div><UnderDevelopment/></div>
   )
 }
 

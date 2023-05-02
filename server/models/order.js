@@ -30,7 +30,11 @@ module.exports = (sequelize, DataTypes) => {
   Order.init({
     state: {
       type: DataTypes.STRING,
-      defaultValue:'unpaid'
+      defaultValue: 'proceeded' // can be ether canceled or proceeded
+    },
+    isPaid:{
+      type: DataTypes.BOOLEAN,
+      defaultValue: false // can be ether canceled or proceeded
     },
     totalPrice: {
       type: DataTypes.DOUBLE //total price
@@ -57,7 +61,14 @@ module.exports = (sequelize, DataTypes) => {
         model: 'Recipes',
         key: 'id'
       }
-    }
+    },
+    coffeeShopId:{
+      type: DataTypes.INTEGER,
+      references: {
+        model: 'CoffeeShops',
+        key: 'id'
+      }
+    },
   }, {
     sequelize,
     modelName: 'Order',

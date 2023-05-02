@@ -44,6 +44,7 @@ const items = [
     getItem('All Accounts', './accounts'),
     getItem('New Account', './accounts/new-account'),
   ]),
+    getItem('Recette', '9', <UserOutlined />),
   {
     type: 'divider',
   },
@@ -54,7 +55,7 @@ const items = [
     getItem('Option 11', '11'),
     getItem('Option 12', '12'),
   ]),
-  getItem('Group', 'grp', null, [getItem('Option 13', '13'), getItem('Option 14', '14')], 'group'),
+  getItem('Group', 'grp', null, [getItem('Sign-out', '13'), getItem('help', '14')], 'group'),
 ];
 
 const Sidebar = () => {

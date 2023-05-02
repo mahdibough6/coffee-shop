@@ -75,6 +75,46 @@ export const getKitchenByProductId = async  (productId) =>{
     throw new Error('Error getting kitchen id');
   }
 }
+export const getKitchenById= async  (kitchenId) =>{
+  try {
+    const response = await api.get(`/api/kitchens/${kitchenId}`);
+    return response;
 
+  } catch (error) {
+    console.error('Error getting kitchen id:', error);
+    throw new Error('Error getting kitchen id');
+  }
+}
 //export const createOrderedProduct = async (productId, qte, orderId)
+
+export const latestOngoingRecipe = async(coffeeShopId, employeeId)=>{
+  try{
+    const response = await api.get(`api/recipes/coffee-shops/${coffeeShopId}/employees/${employeeId}/latest-recipe`)
+    return response.data;
+  }catch(error){
+    console.error('Error getting the latest ongoing recipe :', error)
+    throw new Error('Error getting the latest ongoing recipe ')
+  }
+}
+
+export async function createOrder(data) {
+  try {
+    const response = await api.post('api/orders', data);
+
+    return response.data;
+  } catch (error) {
+    console.error('Failed to create order:', error);
+    throw new Error('Failed to create order');
+  }
+}
+export async function createOrderedProduct(data){
+  try {
+    const response = await api.post('api/ordered-products', data);
+
+    return response.data;
+  } catch (error) {
+    console.error('Failed to create order:', error);
+    throw new Error('Failed to create order');
+  }
+}
 

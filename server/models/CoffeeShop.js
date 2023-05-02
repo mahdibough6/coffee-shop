@@ -24,6 +24,9 @@ module.exports = (sequelize, DataTypes) => {
       this.belongsTo(models.Client, {
         foreignKey: 'clientId'
       })
+      this.hasMany(models.Recipe, {
+        foreignKey: 'coffeeShopId'
+      })
     }
   }
   CoffeeShop.init({

@@ -37,7 +37,7 @@ const Categories = ({ coffeeShopId , setCurrentCategory}) => {
 
 </div>
             <div>
-              <img src={coffeeMug} className='w-[45px] h-[65px] p-1'  alt=""  />
+              <img src={''} className='w-[45px] h-[65px] p-1'  alt={category.image}  />
 </div>
 </div>
             </div>);

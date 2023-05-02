@@ -34,6 +34,9 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       defaultValue:'active'
      } ,
+    image: {
+      type: DataTypes.STRING,
+     } ,
     productCategoryId:{
       type: DataTypes.INTEGER,
       references: {

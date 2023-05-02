@@ -17,7 +17,7 @@ const Products = ({ coffeeShopId, productCategoryId, addProduct }) => {
     fetch();
   }, [coffeeShopId, productCategoryId]); // Added productCategoryId as a dependency
 
-  console.log('Products:', products);
+  console.log('Products:pppppppppppppppppppppppppppppppppppppppp', products);
 
   return (
     <div className="h-screen grid mt-2 grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2">
@@ -33,7 +33,7 @@ onClick={() => addProduct(p)}
              <div className='font-bold text-gray-900'>{p.name}</div> 
             <div>{p.price}</div></div>
               <div className=' p-2 '>
-              <img src={coffeeMug} className='w-[50px] h-[75px]'  alt=""  />
+              <img src={''} className='w-[50px] h-[75px]'  alt={p.image}  />
 </div>
             </div>
           );

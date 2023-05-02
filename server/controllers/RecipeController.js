@@ -67,6 +67,36 @@ exports.delete = async (req, res) => {
   }
 };
 
+exports.latestOngoingRecipe = async (req, res) => {
+  const { employeeId, coffeeShopId } = req.params;
 
+  try {
+    // Find or create the ongoing recipe
+    const [latestOngoingRecipe, created] = await Recipe.findOrCreate({
+      where: {
+        coffeeShopId,
+        employeeId,
+        state: 'ongoing',
+      },
+      defaults: {
+        coffeeShopId,
+        employeeId,
+        totalPrice: 0,
+      },
+      order: [['createdAt', 'DESC']],
+    });
 
+    res.status(200).json({
+      success: true,
+      data: latestOngoingRecipe,
+      created,
+    });
+  } catch (error) {
+    console.error('Error fetching or creating latest ongoing recipe:', error);
+    res.status(500).json({
+      success: false,
+      message: 'An error occurred while fetching or creating the latest ongoing recipe.',
+    });
+  }
+  }
 

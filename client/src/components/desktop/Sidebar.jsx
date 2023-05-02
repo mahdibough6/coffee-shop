@@ -44,7 +44,7 @@ const items = [
     getItem('All Accounts', './accounts'),
     getItem('New Account', './accounts/new-account'),
   ]),
-    getItem('Recette', '9', <UserOutlined />),
+    getItem('Recette', 'k', <UserOutlined />),
   {
     type: 'divider',
   },

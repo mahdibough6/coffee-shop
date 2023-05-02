@@ -12,8 +12,9 @@ exports.create = async (req, res) => {
 
 // Get all kitchen appliances
 exports.getAll = async (req, res) => {
+  const {coffeeShopId} = req.params;
   try {
-    const kitchens = await Kitchen.findAll();
+    const kitchens = await Kitchen.findAll({where: {coffeeShopId}});
     res.status(200).json(kitchens);
   } catch (error) {
     res.status(500).json({ error: error.message });

@@ -54,6 +54,15 @@ export const fetchCategories = async (coffeeShopId)=>{
     throw error;
   }
 }
+export const fetchKitchens = async (coffeeShopId)=>{
+  try{
+    const response = await api.get(`api/kitchens/coffee-shops/${coffeeShopId}`)
+    return response;
+  }catch(error){
+    console.error(error);
+    throw error;
+  }
+}
 
 export const fetchProducts = async (coffeeShopId, productCategoryId)=>{
   try{

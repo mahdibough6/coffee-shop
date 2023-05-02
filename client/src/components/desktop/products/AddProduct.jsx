@@ -1,13 +1,40 @@
 import { PlusOutlined } from '@ant-design/icons';
 import { Button, Form, Input, InputNumber, Select, Upload } from 'antd';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
-
+import { fetchCategories } from '../../../api/coffeeShopAPI';
+import { fetchKitchens } from '../../../api/coffeeShopAPI';
+import useClientStore from '../../../store/clientStore';
 const { Item } = Form;
 
 const AddProduct = () => {
   const [form] = Form.useForm();
+  const [categories, setCategories] = useState([]);
+  const [kitchens, setKitchens] = useState([]);
 
+
+  const {coffeeShopId} = useClientStore();
+
+  useEffect(() => {
+    const fetchedKitchens = async () => {
+      const response = await fetchKitchens(coffeeShopId);
+      const c =response.data;
+      setKitchens(c);
+              console.log(c)
+    };
+
+    fetchedKitchens();
+  }, []);
+  useEffect(() => {
+    const fetchedCategories = async () => {
+      const response = await fetchCategories(coffeeShopId);
+      const c =response.data;
+      setCategories(c);
+              console.log(c)
+    };
+
+    fetchedCategories();
+  }, []);
   const normFile = (e) => {
     if (Array.isArray(e)) {
       return e;
@@ -66,14 +93,22 @@ const AddProduct = () => {
         <Item label="Name" name="name" rules={[{ required: true }]}>
           <Input />
         </Item>
-        <Item label="Kitchen" name="kitchen" rules={[{ required: true }]}>
+        <Item label="Kitchen" name="kitchenId" rules={[{ required: true }]}>
           <Select>
-            <Select.Option value="demo">Demo</Select.Option>
+            {kitchens.map((k) => (
+              <Select.Option key={k.id} value={k.id}>
+                {k.id}
+              </Select.Option>
+            ))}
           </Select>
         </Item>
         <Item label="Category" name="category" rules={[{ required: true }]}>
           <Select>
-            <Select.Option value="demo">Demo</Select.Option>
+            {categories.map((category) => (
+              <Select.Option key={category.id} value={category.id}>
+                {category.name}
+              </Select.Option>
+            ))}
           </Select>
         </Item>
         <Item label="Price" name="price" rules={[{ required: true }]}>

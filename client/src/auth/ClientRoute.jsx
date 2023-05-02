@@ -3,7 +3,7 @@ import { useState } from 'react';
 
 
 const ClientRoute = () => {
-    const isAuthenticated = localStorage.getItem('jwtClient');
+    const isAuthenticated = localStorage.getItem('jwt');
   if (isAuthenticated) { 
     return (
         <Outlet />

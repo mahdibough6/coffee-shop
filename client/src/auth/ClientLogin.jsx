@@ -20,7 +20,7 @@ const ClientLogin = () => {
 
         setClient(client);
         setCoffeeShopId(coffeeShopId);
-        localStorage.setItem('jwtClient', token);
+        localStorage.setItem('jwt', token);
         navigate('../pm-panel');
 
       }

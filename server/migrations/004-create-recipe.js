@@ -1,11 +1,13 @@
 'use strict';
 
+const RecipeState = require("../enums/RecipeState");
+
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('Recipes', {
       id: {
         allowNull: false,
-        defaultValue: Sequelize.INTEGER,
+        autoIncrement:true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
@@ -13,8 +15,9 @@ module.exports = {
         type: Sequelize.DOUBLE
       },
       state: {
-        type: Sequelize.STRING,
-        defaultValue: 'ongoing'
+        type: Sequelize.ENUM,
+        values: [RecipeState.FINISHED,RecipeState.ONGOING],
+        defaultValue: RecipeState.ONGOING
       },
       coffeeShopId: {
         allowNull: false,
@@ -23,6 +26,10 @@ module.exports = {
           model: 'CoffeeShops',
           key: 'id'
         },
+      },
+      isActive:{
+        type:Sequelize.BOOLEAN,
+        defaultValue:true,
       },
       employeeId: {
         allowNull: false,

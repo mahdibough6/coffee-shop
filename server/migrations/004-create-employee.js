@@ -1,4 +1,7 @@
 'use strict';
+
+const EmployeeRole = require('../enums/EmployeeRole');
+
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
@@ -33,10 +36,16 @@ id: {
       },
       role: {
         allowNull:false,
-        type: Sequelize.STRING
+        type: Sequelize.ENUM,
+        values: [EmployeeRole.MANAGER, EmployeeRole.STAFF]
+
       },
       printer: {
         type: Sequelize.STRING,
+      },
+      isActive:{
+        type:Sequelize.BOOLEAN,
+        defaultValue:true,
       },
       coffeeShopId: {
         allowNull:false,

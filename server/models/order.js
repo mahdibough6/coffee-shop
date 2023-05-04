@@ -2,16 +2,13 @@
 const {
   Model
 } = require('sequelize');
+const OrderState = require('../enums/OrderState');
 
 
 
 module.exports = (sequelize, DataTypes) => {
   class Order extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
+
     static associate(models) {
       // define association here
       this.belongsToMany(models.Product , { 
@@ -19,6 +16,9 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'orderId'
         
       });
+      this.belongsTo(models.Recipe, {
+        foreignKey: 'recipeId' 
+      })
       this.belongsTo(models.Table, {
         foreignKey: 'tableId' 
       })
@@ -29,8 +29,9 @@ module.exports = (sequelize, DataTypes) => {
   }
   Order.init({
     state: {
-      type: DataTypes.STRING,
-      defaultValue: 'proceeded' // can be ether canceled or proceeded
+      type: DataTypes.ENUM,
+      values: [OrderState.CANCELED, OrderState.CONFIRMED],
+      defaultValue: OrderState.CONFIRMED // can be ether canceled or proceeded
     },
     isPaid:{
       type: DataTypes.BOOLEAN,
@@ -39,6 +40,10 @@ module.exports = (sequelize, DataTypes) => {
     totalPrice: {
       type: DataTypes.DOUBLE //total price
     },
+    isActive:{
+      type:DataTypes.BOOLEAN,
+      defaultValue:true
+    } ,
     tableId:{
       type: DataTypes.INTEGER,
       references: {

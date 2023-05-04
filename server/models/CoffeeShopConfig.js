@@ -20,6 +20,10 @@ module.exports = (sequelize, DataTypes) => {
   }
   CoffeeShopConfig.init({
     startHour: DataTypes.TIME,
+    isActive:{
+      type:DataTypes.BOOLEAN,
+      defaultValue:true
+    } ,
     coffeeShopId: {
       allowNull: false,
       type: DataTypes.INTEGER,

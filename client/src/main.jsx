@@ -2,25 +2,30 @@ import React, { Children } from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
 import './index.css';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import Home from './home';
-import EmployeeRoute from './auth/EmployeeRoute';
-import POS from './pages/POS';
-import EmployeeLogin from './auth/EmployeeLogin';
-import LicenseProtection from './auth/LicenseProtection';
-import PrinterTest from './pages/PrinterTest';
-import Switcher from './components/Switcher';
-import POSSwitcher from './components/POSSwitcher';
-import ClientLogin from './auth/ClientLogin';
-import ClientSwitcher from './components/ClientSwitcher';
-import ClientRoute from './auth/ClientRoute';
-import Dashboard from './pages/Dashboard';
-import MobileDashboard from './pages/MobileDashboard';
-import Products from './components/desktop/products/Products';
-import AddProduct from './components/desktop/products/AddProduct';
-import AddCategory from './components/desktop/categories/AddCategory';
+import {
+  createBrowserRouter,
+  RouterProvider,
+  Route,
+  createRoutesFromElements,
+} from 'react-router-dom';
+import Home from '@components/landingPage/Home';
+import PosRoutes from '@routes/pos/PosRoutes';
+import DashboardRoutes from '@routes/dashboard/DashboardRoutes';
+import ClientLogin from '@components/common/ClientLogin';
 
-const router = createBrowserRouter([
+
+const router = createBrowserRouter(
+  createRoutesFromElements(
+    <Route path="/" element={<App />}>
+      <Route index element={<Home />}/>
+      <Route path="pos/*" element={<PosRoutes />} />
+      <Route path="pm-panel/*" element={<DashboardRoutes />} />
+      <Route path="pm-panel/login/" element={<ClientLogin />} />
+    </Route>
+  )
+);
+/*
+const router1 = createBrowserRouter([
   {
     path: '/',
     element: <App />,
@@ -50,42 +55,40 @@ const router = createBrowserRouter([
   {
     path: 'login/',
     element: <ClientLogin />,
-    
   },
-
 
   {
     path: 'pm-panel/',
-    element: <ClientRoute/>,
-    children:[
+    element: <ClientRoute />,
+    children: [
       {
         path: '',
         element: <ClientSwitcher />,
-        children:[
+        children: [
           {
             path: 'desktop/',
-            element: <Dashboard/>,
-            children:[
+            element: <Dashboard />,
+            children: [
               {
-                path:'dashboard/'
+                path: 'dashboard/',
               },
               {
-                path:'products/',
-                element: <Products/>
+                path: 'products/',
+                element: <Products />,
               },
               {
-                path:'products/new-product/',
-                element: <AddProduct/>
+                path: 'products/new-product/',
+                element: <AddProduct />,
+              },
+              {
+                path: 'categories/',
+                element: <Categories />,
+              },
+              {
+                path: 'categories/new-category/',
+                element: <AddCategory />,
               },
               /*
-              {
-                path:'categories/',
-                element: <Categories/>
-              },
-              {
-                path:'categories/new-category/',
-                element: <AddCategory/>
-              },
               {
                 path:'kitchens/',
                 element: <Kitchens/>
@@ -105,17 +108,16 @@ const router = createBrowserRouter([
               {
                 path:'Recipes/',
                 element: <Recipes/>
-              },*/
-            ]
+              },
+            ],
           },
           {
             path: 'mobile/',
-            element: <MobileDashboard/>
-          }
-        ]
-}
-]
-
+            element: <MobileDashboard />,
+          },
+        ],
+      },
+    ],
   },
   {
     path: 'home/',
@@ -126,7 +128,7 @@ const router = createBrowserRouter([
     element: <PrinterTest />,
   },
 ]);
-
+*/
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <RouterProvider router={router} />

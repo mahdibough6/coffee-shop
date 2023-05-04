@@ -22,6 +22,10 @@ id: {
       image: {
         type: Sequelize.STRING
       },
+      isActive: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: true
+      },
       kitchenId: {
         type: Sequelize.INTEGER,
         references: {

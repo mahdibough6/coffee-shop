@@ -1,4 +1,8 @@
 'use strict';
+
+const OrderState = require('../enums/OrderState');
+const OrdredProductState = require('../enums/OrderedProductState');
+
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
@@ -14,8 +18,13 @@ module.exports = {
         type: Sequelize.INTEGER,
       },
       state: {
-        type: Sequelize.STRING,
-        defaultValue: 'proceeded'
+        type: Sequelize.ENUM,
+        values: [OrdredProductState.CANCELED, OrdredProductState.CONFIRMED],
+        defaultValue: OrdredProductState.CONFIRMED
+      },
+      isActive:{
+        type:Sequelize.BOOLEAN,
+        defaultValue:true,
       },
       orderId: {
         allowNull: false,

@@ -21,11 +21,9 @@ exports.getAll = async (req, res) => {
 // Get all product categories for a specific coffee shop
 exports.getAllCoffeeShopCategories = async (req, res) => {
   const coffeeShopId = req.params.coffeeShopId;
-  console.log("+++++++++++++++++++++++")
-  console.log(coffeeShopId)
   try {
     const productCategories = await ProductCategory.findAll({
-      where: { coffeeShopId }
+      where: { coffeeShopId, isActive:true }
     });
     res.status(200).json(productCategories);
   } catch (error) {

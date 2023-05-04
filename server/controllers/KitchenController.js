@@ -14,7 +14,7 @@ exports.create = async (req, res) => {
 exports.getAll = async (req, res) => {
   const {coffeeShopId} = req.params;
   try {
-    const kitchens = await Kitchen.findAll({where: {coffeeShopId}});
+    const kitchens = await Kitchen.findAll({where: {coffeeShopId, isActive:true}});
     res.status(200).json(kitchens);
   } catch (error) {
     res.status(500).json({ error: error.message });

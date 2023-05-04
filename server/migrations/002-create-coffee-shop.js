@@ -23,6 +23,10 @@ id: {
       address: {
         type: Sequelize.STRING
       },
+      isActive:{
+        type:Sequelize.BOOLEAN,
+        defaultValue:true,
+      },
       clientId: {
         allowNull: false,
         type: Sequelize.INTEGER,

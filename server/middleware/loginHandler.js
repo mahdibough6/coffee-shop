@@ -5,32 +5,30 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
 const loginHandler = async (req, res) => {
+  const { coffeeShopId, username, password } = req.body;
 
-  console.log("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
-  console.log(req.body)
-  console.log("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
-  const { coffeeShopKey, username, password } = req.body;
-
-  if (!coffeeShopKey || !username || !password) {
+  if (!coffeeShopId || !username || !password) {
     return res.status(400).json({ error: 'Invalid request body' });
   }
 
   try {
-    const coffeeShop = await CoffeeShop.findOne({ where: {  coffeeShopKey } });
-    const coffeeShopId = coffeeShop ? coffeeShop.id : null;
-
-    const employee = await Employee.findOne({where: { username, coffeeShopId }});
+    const employee = await Employee.findOne({
+      where: { username, coffeeShopId },
+    });
 
     if (!employee || employee.pwd !== password) {
-      return res.status(401).json({ error: 'Invalid email or password' });
+      return res.status(401).json({ error: 'Invalid credentials' });
     }
-
-    const token = jwt.sign({ empoyee: employee }, process.env.JWT_PRIVATE_KEY, {
+    const employeeId = employee.id;
+    const employeeRole = employee.role;
+    const payload = { employeeId, employeeRole };
+    const token = jwt.sign(payload, process.env.JWT_PRIVATE_KEY, {
       expiresIn: '1h',
     });
 
     res.json({ token });
   } catch (error) {
+    console.log(error)
     res.status(400).json({ error: 'Login failed' });
   }
 };

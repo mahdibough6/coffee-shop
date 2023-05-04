@@ -6,7 +6,8 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var cors = require ('cors'); 
-
+var http = require('http')
+const multer = require('multer');
 // routes
 var indexRouter = require('./routes/index');
 
@@ -42,27 +43,42 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 
-
-
 //here the order is important [routes area]
 app.use('/', indexRouter);
 
 const apiRoutes = require('./routes');
-const protectedEmployeesRouter = require('./protected-routes/employees')
+const protectedEmployeesRouter = require('./protected-routes/pos-employees')
 const protectedCheckRouter = require('./protected-routes/check-authentication')
 const loginHandler = require('./middleware/loginHandler')
 const clientLoginRoute = require('./protected-routes/client-login')
+const licenseKeyVerificationRouter = require('./protected-routes/license-key-verification');
+const configureSocket = require('./socket');
+
+app.use('/license-key-verfication', licenseKeyVerificationRouter)
 
 app.use('/protected', protectedEmployeesRouter)
 app.use('/protected', protectedCheckRouter)
 app.use('/client-login',clientLoginRoute )
 
 //app.get('/usernames', licenseHandler);
-app.post('/login', loginHandler);
+app.post('/pos-login', loginHandler);
 
 
 app.use('/api/*', authenticateJWT);
 app.use('/api', apiRoutes);
+
+app.post('/api/validate-token', (req, res) => {
+  const { token, coffeeShopId } = req.body;
+
+  // Replace with your logic to validate the token and coffee shop ID
+  const isValidToken = true;
+
+  if (isValidToken) {
+    res.json({ success: true });
+  } else {
+    res.status(401).json({ success: false, message: 'Invalid token' });
+  }
+});
 
 
 // catch 404 and forward to error handler
@@ -83,4 +99,9 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
+const server = http.createServer(app);
+const io = configureSocket(server)
+
+
 module.exports = app;
+

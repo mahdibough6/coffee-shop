@@ -73,6 +73,7 @@ exports.getByCatAndCoffeeShopId = async (req, res) => {
       where: {
         productCategoryId: req.params.productCategoryId,
         coffeeShopId: req.params.coffeeShopId,
+        isActive:true
       },
     });
     res.status(200).json(products);
@@ -128,5 +129,41 @@ exports.activateProduct = async (req, res) => {
     }
   } catch (error) {
     res.status(500).json({ error: error.message });
+  }
+};
+exports.getWithPagination = async (req, res) => {
+  const limit = parseInt(req.query.limit) || 10; // Default limit is 10 items
+  const offset = parseInt(req.query.offset) || 0; // Default offset is 0
+  const coffeeShopId = req.query.coffeeShopId;
+
+  try {
+    const products = await Product.findAll({
+      limit,
+      offset,
+      where: {
+        isActive: true,
+        coffeeShopId,
+      },
+      include: {
+        model: ProductCategory,
+        attributes: ['name'],
+      },
+      attributes: ['id', 'name', 'price'],
+      // Add any other options you need, like sorting
+    });
+
+    const productsWithCategoryName = products.map(product => {
+      return {
+        id: product.id,
+        name: product.name,
+        price: product.price,
+        category: product.ProductCategory.name,
+      };
+    });
+
+    res.status(200).json({ products: productsWithCategoryName });
+  } catch (error) {
+    console.error('Error fetching products:', error);
+    res.status(500).json({ success: false, message: 'Error fetching products' });
   }
 };

@@ -201,10 +201,10 @@ setSound(sound + 1);
           </div>
         </div>
 
-        <div className="flex flex-col w-full bg-white">
+        <div className="flex flex-col w-full  bg-white ">
           <div
             style={{ maxHeight: `calc(${windowHeight}px - 249px)` }}
-            className={'overflow-auto p-2 pt-0'}
+            className={'overflow-auto p-2 pt-0  '}
           >
             <Products
               productCategoryId={currentCategory.id}
@@ -212,11 +212,12 @@ setSound(sound + 1);
               addProduct={addProduct}
             />
           </div>
+          <div className='flex-1'></div>
           <div className="h-[199px] bg-gray-300 border-t-4 border-green-400  ">
             <div
               style={{ maxWidth: `calc(${windowWidth}px - 49px)` }}
               className={
-                'overflow-x-auto p-2 pt-0 h-full w-full overflow-x-scroll'
+                'overflow-x-auto p-2 pt-0 h-full w-full overflow-x-scroll '
               }
             >
               <Categories

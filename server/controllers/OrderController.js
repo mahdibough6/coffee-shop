@@ -1,7 +1,6 @@
 const { Order, Employee, Table, Product } = require('../models');
 // Create a new order
 exports.create = async (req, res) => {
-    console.log("+ ++++++++++++++++++++++++++++++++++++++ +", req.body)
   try {
     const order = await Order.create(req.body);
     res.status(201).json(order);
@@ -21,7 +20,22 @@ exports.getAll = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+exports.getRecipeOrders = async (req, res) => {
+  const {coffeeShopId, recipeId }= req.params;
+  try {
+    const orders = await Order.findAll({
+      where:{
+        coffeeShopId,
+        recipeId
+      }
+    });
+    res.status(200).json(orders);
+  } catch (error) {
+    console.error('Error retrieving orders:', error);
+    res.status(500).json({ error: error.message });
+  }
 
+};
 // Get a single order by ID
 exports.getById = async (req, res) => {
   try {
@@ -30,6 +44,26 @@ exports.getById = async (req, res) => {
     });
     if (order) {
       res.status(200).json(order);
+    } else {
+      res.status(404).json({ message: 'Order not found' });
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+exports.cancelOrder = async (req, res) => {
+  console.log(req.params)
+  try {
+    const [updatedRows] = await Order.update(
+      { state: 'canceled' },
+      {
+        where: { id: req.params.orderId, coffeeShopId: req.params.coffeeShopId },
+      }
+    );
+
+    if (updatedRows) {
+      const updatedOrder = await Order.findByPk(req.params.orderId);
+      res.status(200).json(updatedOrder);
     } else {
       res.status(404).json({ message: 'Order not found' });
     }

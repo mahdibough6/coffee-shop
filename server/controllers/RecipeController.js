@@ -33,8 +33,6 @@ exports.getById = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
-
-// Update a recipe by ID
 exports.update = async (req, res) => {
   try {
     const [updatedRows] = await Recipe.update(req.body, {
@@ -46,6 +44,37 @@ exports.update = async (req, res) => {
       res.status(200).json(updatedRecipe);
     } else {
       res.status(404).json({ message: 'Recipe not found' });
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+// Update a recipe by ID
+exports.finishRecipe = async (req, res) => {
+  try {
+    // Check if the recipe exists
+    const recipe = await Recipe.findByPk(req.params.id);
+    if (!recipe) {
+      return res.status(404).json({ message: 'Recipe not found' });
+    }
+
+    // Check if the current status is 'ongoing'
+    if (recipe.status === 'ongoing') {
+      // Update the status to 'finished' and the totalPrice
+      const newTotalPrice = req.body.totalPrice; // Get the new totalPrice from the request body
+      const [updatedRows] = await Recipe.update(
+        { state: 'finished', totalPrice: newTotalPrice },
+        { where: { id: req.params.id } }
+      );
+
+      if (updatedRows) {
+        const updatedRecipe = await Recipe.findByPk(req.params.id);
+        res.status(200).json(updatedRecipe);
+      } else {
+        res.status(500).json({ message: 'Unable to update the recipe' });
+      }
+    } else {
+      res.status(400).json({ message: 'Recipe is not in ongoing status' });
     }
   } catch (error) {
     res.status(500).json({ error: error.message });

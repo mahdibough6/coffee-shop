@@ -23,6 +23,10 @@ id: {
         allowNull:false,
         type: Sequelize.STRING
       },
+      isActive:{
+        type:Sequelize.BOOLEAN,
+        defaultValue:true,
+      },
       email:{
         allowNull:false,
         type: Sequelize.STRING

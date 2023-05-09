@@ -7,10 +7,11 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var cors = require ('cors'); 
 var http = require('http')
+const {Server} = require('socket.io')
 const multer = require('multer');
 // routes
+const serveStatic = require('serve-static');
 var indexRouter = require('./routes/index');
-
 
 
 
@@ -24,7 +25,12 @@ const db = require("./models");
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
+const serveOptions = {
+  maxAge: '30d', // The browser will cache images for 30 days
+  immutable: true,
+};
 
+app.use('/uploads', serveStatic('uploads', serveOptions));
 // Set up the CORS options
 const corsOptions = {
 //  origin: process.env.REACT_APP_URL,
@@ -52,7 +58,6 @@ const protectedCheckRouter = require('./protected-routes/check-authentication')
 const loginHandler = require('./middleware/loginHandler')
 const clientLoginRoute = require('./protected-routes/client-login')
 const licenseKeyVerificationRouter = require('./protected-routes/license-key-verification');
-const configureSocket = require('./socket');
 
 app.use('/license-key-verfication', licenseKeyVerificationRouter)
 
@@ -100,7 +105,7 @@ app.use(function(err, req, res, next) {
 });
 
 const server = http.createServer(app);
-const io = configureSocket(server)
+const io = new Server(server)
 
 
 module.exports = app;

@@ -1,5 +1,6 @@
 const { Product, ProductCategory } = require('../models');
 
+
 // Create a new product
 exports.create = async (req, res) => {
   try {
@@ -167,3 +168,4 @@ exports.getWithPagination = async (req, res) => {
     res.status(500).json({ success: false, message: 'Error fetching products' });
   }
 };
+

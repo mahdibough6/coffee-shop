@@ -1,5 +1,7 @@
 const { Recipe } = require('../models');
-
+  const {Employee} = require('../models');
+  const { Op } = require('sequelize');
+  const RecipeState = require('../enums/RecipeState')
 // Create a new recipe
 exports.create = async (req, res) => {
   try {
@@ -59,7 +61,7 @@ exports.finishRecipe = async (req, res) => {
     }
 
     // Check if the current status is 'ongoing'
-    if (recipe.status === 'ongoing') {
+    if (recipe.state === 'ongoing') {
       // Update the status to 'finished' and the totalPrice
       const newTotalPrice = req.body.totalPrice; // Get the new totalPrice from the request body
       const [updatedRows] = await Recipe.update(
@@ -74,6 +76,7 @@ exports.finishRecipe = async (req, res) => {
         res.status(500).json({ message: 'Unable to update the recipe' });
       }
     } else {
+
       res.status(400).json({ message: 'Recipe is not in ongoing status' });
     }
   } catch (error) {
@@ -129,3 +132,37 @@ exports.latestOngoingRecipe = async (req, res) => {
   }
   }
 
+  
+  exports.getFinishedRecipes = async (req, res) => {
+    console.log("message recieved")
+    const coffeeShopId= req.query.coffeeShopId;
+    const limit = parseInt(req.query.limit) || 10;
+    const page = parseInt(req.query.page) || 1;
+    const offset = (page - 1) * limit;
+  
+    try {
+      const { count, rows } = await Recipe.findAndCountAll({
+        where: {
+          isActive: true,
+          state: RecipeState.FINISHED,
+          coffeeShopId
+        },
+        limit,
+        offset,
+        include: [
+          { model: Employee, attributes: ['username'] },
+        ],
+        attributes: ['id', 'totalPrice', 'state', 'createdAt'], //TODO here i will add some sorting if needed
+
+      });
+  
+      const totalPages = Math.ceil(count / limit);
+  
+      res.status(200).json({ page, totalPages, recipes: rows });
+    } catch (error) {
+      console.error('Error fetching recipes:', error);
+      res.status(500).json({ success: false, message: 'Error fetching recipes' });
+    }
+  };
+  
+  

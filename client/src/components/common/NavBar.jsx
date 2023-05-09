@@ -51,7 +51,7 @@ const NavBar = () => {
           className="text-red-800 mr-3 bg-red-200 border-2 border-red-400 px-4 py-2 rounded text-sm font-bold"
           onClick={() => handleLogout()}
         >
-          Deconexion
+         LogOut 
         </div>
       </div>
     </div>

@@ -24,12 +24,22 @@ export const getRecipeOrders = async (coffeeShopId, recipeId) => {
 export const finishRecipe = async (coffeeShopId, recipeId, totalPrice) => {
   try {
     const response = await posApi.put(
-      `api/recipes/coffee-shops/${coffeeShopId}/recipes/${recipeId}/finish-recipe`,
+      `api/recipes/${recipeId}/coffee-shops/${coffeeShopId}/finish-recipe`,
       { totalPrice: totalPrice }
     );
     return response.data;
   } catch (error) {
+
     console.error('Error finishing the recipe:', error);
     throw new Error('Error finishing the recipe');
   }
 };
+export const getOngoingOrders = async( coffeeShopId )=>{
+  try{
+    const response = await posApi.get(`api/orders/coffee-shops/${coffeeShopId}/ongoing`);
+    return response.data;
+
+  }catch(err){
+    console.error('Error fetching the ongoin orders!');
+  }
+}

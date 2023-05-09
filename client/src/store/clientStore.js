@@ -6,12 +6,14 @@ const useClientStore = create(
     (set, get) => ({
       currentTab: 'dashboard',
       client: {},
+      recipeId: null,
+      setRecipeId: (recipeId) => set((state) => ({ recipeId })),
       coffeeShopId: '',
       setCurrentTab: (tab) => set((state) => ({ currentTab: tab })),
       setCoffeeShopId: (coffeeShopId) => set((state) => ({ coffeeShopId })),
       setClient: (currentClient) => set((state) => ({ currentClient })),
       clearSession: () => {
-        localStorage.clear();
+        localStorage.removeItem('jwtClient');
         set((state) => ({
           currentTab: 'dashboard',
           client: {},
@@ -20,12 +22,12 @@ const useClientStore = create(
       },
     }),
     {
-      name: 'client-store', // Name of the item in the storage (must be unique)
-      version: '1.0.6', // Optional version number for migrations
-      storage: createJSONStorage(() => localStorage), // Optional storage type (defaults to localStorage)
+      name: 'client-store', 
+      version: '1.0.6', 
+      storage: createJSONStorage(() => localStorage),
       partialize: (state) =>
         Object.fromEntries(
-          Object.entries(state).filter(([key]) => !['currentTab'].includes(key))
+          Object.entries(state).filter(([key]) => !['currentTab', 'recipeId'].includes(key))
         ),
     }
   )

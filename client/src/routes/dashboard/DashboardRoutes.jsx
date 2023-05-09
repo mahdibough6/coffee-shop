@@ -8,7 +8,8 @@ import AddEmployee from '@components/adminDashboard/desktop/employees/AddEmploye
 import Employees from '@components/adminDashboard/desktop/employees/Employees';
 import Dashboard from '@components/adminDashboard/desktop/Dashboard';
 import { Routes, Route } from 'react-router-dom';
-import Statistics from '../../components/adminDashboard/desktop/Statistics';
+import Statistics from '@components/adminDashboard/desktop/Statistics';
+import Recipe from '@components/adminDashboard/desktop/Recipes';
 
 function DashboardRoutes() {
   return (
@@ -22,7 +23,9 @@ function DashboardRoutes() {
         <Route path={'accounts'} element={<Employees/>}/>
         <Route path={'categories/new-category'} element={<AddCategory/>}/>
         <Route path={'accounts/new-account'} element={<AddEmployee/>}/>
-        <Route path={'recettes'} element={<AddEmployee/>}/>
+        <Route path={'recipes'} element={<Recipe/>}/>
+        <Route path={'recipes/:recipeId'} element={<Recipe/>}/>
+        <Route path={'orders/:orderId'} element={<Recipe/>}/>
 </Route>
       </Route>
     </Routes>

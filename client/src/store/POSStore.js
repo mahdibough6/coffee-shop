@@ -7,7 +7,7 @@ const usePosStore = create(
     currentEmployee: {},
     employees: [],
 
-    coffeeShopId: null,
+    coffeeShopId: '',
 
     currentCategory: {},
     selectedOrder: {},
@@ -15,6 +15,10 @@ const usePosStore = create(
     recipeId: {},
     orderedProducts: [],
     kitchen: {},
+    isReceiptTerminated: false,
+    defaultPrinter:null,
+    setDefaultPrinter: (printer) => set((state) => ({ defaultPrinter: printer })),
+    setIsReceiptTerminated: (isReceiptTerminated) => set((state) => ({ isReceiptTerminated })),
 
     setCoffeeShopId: (coffeeShopId) => set((state) => ({ coffeeShopId })),
     setSelectedOrder: (order)=>set((state)=>({selectedOrder:order})),
@@ -61,7 +65,7 @@ const usePosStore = create(
         storage: createJSONStorage(() => localStorage),
         partialize: (state) =>
           Object.fromEntries(
-            Object.entries(state).filter(([key]) => !['selectedOrder'].includes(key))
+            Object.entries(state).filter(([key]) => !['selectedOrder', 'currentCategory'].includes(key))
           ),
       }
   )

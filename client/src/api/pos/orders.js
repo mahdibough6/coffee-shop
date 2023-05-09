@@ -22,3 +22,21 @@ export const cancelOrder = async (coffeeShopId, orderId) => {
     throw new Error('Error canceling the order');
   }
 };
+export const getOrderedProducts = async (orderId) => {
+    try {
+      const response = await posApi.get(`api/orders/${orderId}/ordered-products`);
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching ordered products:', error);
+      throw error;
+    }
+  };
+  export const getOngoingOrdersSummary = async (coffeeShopId) => {
+    try {
+      const response = await posApi.get(`api/coffee-shops/${coffeeShopId}/ongoing-orders-summary`);
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching ongoing orders summary:', error);
+      throw error;
+    }
+  };

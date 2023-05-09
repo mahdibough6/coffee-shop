@@ -9,11 +9,15 @@ id: {
   primaryKey: true,
   type: Sequelize.INTEGER
 },
-      name: {
+      key: {
         type: Sequelize.STRING
       },
       value: {
         type: Sequelize.STRING
+      },
+      isActive: {
+        type: Sequelize.BOOLEAN,
+        defaultValue:true
       },
       coffeeShopId:{
         allowNull: false,
@@ -22,6 +26,10 @@ id: {
           model:'CoffeeShops',
           key:'id'
         }
+      },
+      createdAt: {
+        allowNull: false,
+        type: Sequelize.DATE
       },
       updatedAt: {
         allowNull: false,

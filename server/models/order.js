@@ -33,6 +33,10 @@ module.exports = (sequelize, DataTypes) => {
       values: [OrderState.CANCELED, OrderState.CONFIRMED],
       defaultValue: OrderState.CONFIRMED // can be ether canceled or proceeded
     },
+    ref:{
+      type: DataTypes.INTEGER,
+      defaultValue: 0 // can be ether canceled or proceeded
+    },
     isPaid:{
       type: DataTypes.BOOLEAN,
       defaultValue: false // can be ether canceled or proceeded
@@ -60,7 +64,6 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     recipeId:{
-      allowNull: false,
       type: DataTypes.INTEGER,
       references: {
         model: 'Recipes',

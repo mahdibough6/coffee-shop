@@ -1,4 +1,4 @@
-const { OrderedProduct } = require('../models');
+const { OrderedProduct, Order , Product} = require('../models');
 
 // Create a new ordered product
 exports.create = async (req, res) => {
@@ -64,5 +64,63 @@ exports.delete = async (req, res) => {
     }
   } catch (error) {
     res.status(500).json({ error: error.message });
+  }
+};
+
+exports.getOrderedProductsSummary = async (req, res) => {
+  try {
+    const {recipeId, coffeeShopId} = req.params;
+
+    const orders = await Order.findAll({
+      where: {
+        recipeId,
+        coffeeShopId,
+        isActive: true
+      },
+      include: {
+        model: Product,
+        through: {
+          model: OrderedProduct,
+          attributes: ['qte']
+        }
+      }
+    });
+
+    const productSummary = {};
+    let totalPrice = 0;
+
+    orders.forEach(order => {
+      order.Products.forEach(product => {
+        const qte = product.OrderedProduct.qte;
+        const productTotalPrice = product.price * qte;
+        totalPrice += productTotalPrice;
+        
+        if (productSummary[product.id]) {
+          productSummary[product.id].qte += qte;
+          productSummary[product.id].totalPrice += productTotalPrice;
+        } else {
+          productSummary[product.id] = {
+            id: product.id,
+            name: product.name,
+            qte: qte,
+            totalPrice: productTotalPrice
+          };
+        }
+      });
+    });
+
+    res.status(200).json({
+      success: true,
+      data: {
+        products: Object.values(productSummary),
+        recipeTotalPrice: totalPrice
+      }
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({
+      success: false,
+      message: 'An error occurred while fetching ordered products summary'
+    });
   }
 };

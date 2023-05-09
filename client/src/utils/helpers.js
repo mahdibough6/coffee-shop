@@ -34,6 +34,7 @@ export const summarizeProducts = (productList) => {
       // If the product doesn't exist, add it with an initial quantity of 1 and the initial price
       productSummary[productItem.id] = {
         ...productItem,
+        name:productItem.name,
         qte: 1,
         totalPrice: productItem.price,
       };

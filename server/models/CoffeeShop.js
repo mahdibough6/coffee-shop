@@ -24,18 +24,25 @@ module.exports = (sequelize, DataTypes) => {
       this.belongsTo(models.Client, {
         foreignKey: 'clientId'
       })
+      this.hasMany(models.Recipe, {
+        foreignKey: 'coffeeShopId'
+      })
     }
   }
   CoffeeShop.init({
     name: DataTypes.STRING,
     address: DataTypes.STRING,
-    key: {
+    coffeeShopKey: {
       type: DataTypes.STRING,
       unique:true
     },
-    cientId: {
+    isActive:{
+      type:DataTypes.BOOLEAN,
+      defaultValue:true
+    } ,
+    clientId: {
       allowNull: false,
-      type: DataTypes.UUID,
+      type: DataTypes.INTEGER,
       references: {
         model: 'Clients',
         key: 'id'

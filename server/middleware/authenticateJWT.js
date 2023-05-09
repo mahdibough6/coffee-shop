@@ -1,23 +1,26 @@
 const jwt = require('jsonwebtoken');
-require('dotenv').config()
+require('dotenv').config();
 
-function authenticateJWT(req, res, next) {
-  const authHeader = req.headers.authorization;
+const authenticateJWT = async (req, res, next) => {
+  const { authorization } = req.headers;
 
-  if (authHeader) {
-    const token = authHeader.split(' ')[1]; // Extract the token from the header
-    console.log("server received token : =>" + token)
+  if (authorization) {
+    const [bearer, token] = authorization.split(' ');
 
-    jwt.verify(token, process.env.JWT_PRIVATE_KEY, (err, decoded) => {
-      if (err) {
-        return res.sendStatus(403); // Forbidden
+    if (bearer === 'Bearer' && token) {
+      try {
+        const decoded = jwt.verify(token, process.env.JWT_PRIVATE_KEY);
+        next();
+      } catch (err) {
+        res.sendStatus(403); // Forbidden
       }
-      next();
-    });
+    } else {
+      res.sendStatus(401); // Unauthorized
+    }
   } else {
     res.sendStatus(401); // Unauthorized
   }
-}
+};
 
 module.exports = { authenticateJWT };
 

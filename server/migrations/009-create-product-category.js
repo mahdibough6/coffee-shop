@@ -5,36 +5,39 @@ module.exports = {
     await queryInterface.createTable('ProductCategories', {
       id: {
         allowNull: false,
-        defaultValue:  Sequelize.UUIDV4,
+        autoIncrement: true, // set auto-increment
         primaryKey: true,
-        type: Sequelize.UUID
+        type: Sequelize.INTEGER,
       },
       name: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
-      state: {
-        defaultValue:'active',
-        type: Sequelize.STRING
+      image: {
+        type: Sequelize.STRING,
+      },
+      isActive:{
+        type:Sequelize.BOOLEAN,
+        defaultValue:true,
       },
       coffeeShopId: {
         allowNull: false,
-        type: Sequelize.UUID,
+        type: Sequelize.INTEGER,
         references: {
           model: 'CoffeeShops',
-          key: 'id'
+          key: 'id',
         },
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE
-      }
+        type: Sequelize.DATE,
+      },
     });
   },
   async down(queryInterface, Sequelize) {
     await queryInterface.dropTable('ProductCategories');
-  }
+  },
 };

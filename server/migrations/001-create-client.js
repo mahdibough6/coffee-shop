@@ -3,12 +3,12 @@
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('Clients', {
-      id: {
-        allowNull: false,
-        defaultValue:  Sequelize.UUIDV4,
-        primaryKey: true,
-        type: Sequelize.UUID
-      },
+id: {
+  allowNull: false,
+  autoIncrement: true, // set auto-increment
+  primaryKey: true,
+  type: Sequelize.INTEGER
+},
       first: {
         type: Sequelize.STRING
       },
@@ -22,6 +22,10 @@ module.exports = {
       username: {
         allowNull:false,
         type: Sequelize.STRING
+      },
+      isActive:{
+        type:Sequelize.BOOLEAN,
+        defaultValue:true,
       },
       email:{
         allowNull:false,

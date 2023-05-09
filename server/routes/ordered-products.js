@@ -5,6 +5,7 @@ const OrderedProductController = require('../controllers/OrderedProductControlle
 
 router.post('/', OrderedProductController.create);
 router.get('/', OrderedProductController.getAll);
+router.get('/coffee-shops/:coffeeShopId/recipes/:recipeId', OrderedProductController.getOrderedProductsSummary);
 router.get('/:id', OrderedProductController.create);
 router.put('/:id', OrderedProductController.update);
 router.delete('/:id', OrderedProductController.delete);

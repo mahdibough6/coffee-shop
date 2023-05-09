@@ -34,8 +34,15 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       defaultValue:'active'
      } ,
+    image: {
+      type: DataTypes.STRING,
+     } ,
+    isActive:{
+      type:DataTypes.BOOLEAN,
+      defaultValue:true
+    } ,
     productCategoryId:{
-      type: DataTypes.UUID,
+      type: DataTypes.INTEGER,
       references: {
         model: 'ProductCategories',
         key: 'id'
@@ -43,14 +50,14 @@ module.exports = (sequelize, DataTypes) => {
     },
     coffeeShopId: {
       allowNull: false,
-      type: DataTypes.UUID,
+      type: DataTypes.INTEGER,
       references: {
         model: 'CoffeeShops',
         key: 'id',
       },
     },
     kitchenId:{
-      type: DataTypes.UUID,
+      type: DataTypes.INTEGER,
       references: {
         model: 'Kitchens',
         key: 'id'

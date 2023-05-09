@@ -3,12 +3,12 @@
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('Products', {
-      id: {
-        allowNull: false,
-        defaultValue:  Sequelize.UUIDV4,
-        primaryKey: true,
-        type: Sequelize.UUID
-      },
+id: {
+  allowNull: false,
+  autoIncrement: true, // set auto-increment
+  primaryKey: true,
+  type: Sequelize.INTEGER
+},
       name: {
         type: Sequelize.STRING
       },
@@ -19,8 +19,22 @@ module.exports = {
         defaultValue:'active',
         type: Sequelize.STRING
       },
+      image: {
+        type: Sequelize.STRING
+      },
+      isActive: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: true
+      },
+      kitchenId: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Kitchens',
+          key: 'id'
+        }
+      },
       productCategoryId: {
-        type: Sequelize.UUID,
+        type: Sequelize.INTEGER,
         references: {
           model: 'ProductCategories',
           key: 'id'
@@ -28,7 +42,7 @@ module.exports = {
       },
       coffeeShopId: {
         allowNull: false,
-        type: Sequelize.UUID,
+        type: Sequelize.INTEGER,
         references: {
           model: 'CoffeeShops',
           key: 'id'

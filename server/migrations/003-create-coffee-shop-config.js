@@ -3,25 +3,33 @@
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('CoffeeShopConfig', {
-      id: {
-        allowNull: false,
-        defaultValue:  Sequelize.UUIDV4,
-        primaryKey: true,
-        type: Sequelize.UUID
-      },
-      name: {
+id: {
+  allowNull: false,
+  autoIncrement: true, // set auto-increment
+  primaryKey: true,
+  type: Sequelize.INTEGER
+},
+      key: {
         type: Sequelize.STRING
       },
       value: {
         type: Sequelize.STRING
       },
+      isActive: {
+        type: Sequelize.BOOLEAN,
+        defaultValue:true
+      },
       coffeeShopId:{
         allowNull: false,
-        type: Sequelize.UUID,
+        type: Sequelize.INTEGER,
         references: {
           model:'CoffeeShops',
           key:'id'
         }
+      },
+      createdAt: {
+        allowNull: false,
+        type: Sequelize.DATE
       },
       updatedAt: {
         allowNull: false,

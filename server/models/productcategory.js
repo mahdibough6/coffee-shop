@@ -21,13 +21,14 @@ module.exports = (sequelize, DataTypes) => {
   }
   ProductCategory.init({
     name: DataTypes.STRING,
-    status: {
-      type:DataTypes.STRING,
-      defaultValue:'active'
-    },
+    image: DataTypes.STRING,
+    isActive:{
+      type:DataTypes.BOOLEAN,
+      defaultValue:true
+    } ,
     coffeeShopId: {
       allowNull: false,
-      type: DataTypes.UUID,
+      type: DataTypes.INTEGER,
       references: {
         model: 'CoffeeShops',
         key: 'id',

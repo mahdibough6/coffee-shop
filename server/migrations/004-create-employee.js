@@ -1,14 +1,17 @@
 'use strict';
+
+const EmployeeRole = require('../enums/EmployeeRole');
+
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('Employees', {
-      id: {
-        allowNull: false,
-        defaultValue:  Sequelize.UUIDV4,
-        primaryKey: true,
-        type: Sequelize.UUID
-      },
+id: {
+  allowNull: false,
+  autoIncrement: true, // set auto-increment
+  primaryKey: true,
+  type: Sequelize.INTEGER
+},
       first: {
         type: Sequelize.STRING
       },
@@ -23,23 +26,30 @@ module.exports = {
         allowNull:false,
         type: Sequelize.STRING
       },
+      email: {
+        allowNull:false,
+        type: Sequelize.STRING
+      },
       pwd: {
         allowNull:false,
         type: Sequelize.STRING
       },
       role: {
         allowNull:false,
-        type: Sequelize.STRING
+        type: Sequelize.ENUM,
+        values: [EmployeeRole.MANAGER, EmployeeRole.STAFF]
+
       },
-      printerIp: {
-        type: Sequelize.STRING
+      printer: {
+        type: Sequelize.STRING,
       },
-      printerPort: {
-        type: Sequelize.STRING
+      isActive:{
+        type:Sequelize.BOOLEAN,
+        defaultValue:true,
       },
       coffeeShopId: {
         allowNull:false,
-        type: Sequelize.UUID,
+        type: Sequelize.INTEGER,
         references: {
           model: 'CoffeeShops',
           key: 'id'

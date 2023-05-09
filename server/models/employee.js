@@ -2,6 +2,7 @@
 const {
   Model
 } = require('sequelize');
+const EmployeeRole = require('../enums/EmployeeRole');
 
 
 module.exports = (sequelize, DataTypes) => {
@@ -22,12 +23,18 @@ module.exports = (sequelize, DataTypes) => {
     email: DataTypes.STRING,
     username: DataTypes.STRING,
     pwd: DataTypes.STRING,
-    role: DataTypes.STRING,
-    printerIp: DataTypes.STRING,
-    printerPort: DataTypes.STRING,
+    role: {
+        type: DataTypes.ENUM,
+        values: [EmployeeRole.MANAGER, EmployeeRole.STAFF],
+    },
+    printer: DataTypes.STRING,
+    isActive:{
+      type:DataTypes.BOOLEAN,
+      defaultValue:true
+    } ,
     coffeeShopId: {
       allowNull: false,
-      type: DataTypes.UUID,
+      type: DataTypes.INTEGER,
       references: {
         model: 'CoffeeShops',
         key: 'id'

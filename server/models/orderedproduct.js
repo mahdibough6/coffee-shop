@@ -1,8 +1,6 @@
 'use strict';
-const {
-  Model
-} = require('sequelize');
-
+const { Model } = require('sequelize');
+const OrdredProductState = require('../enums/OrderedProductState');
 
 module.exports = (sequelize, DataTypes) => {
   class OrderedProduct extends Model {
@@ -15,26 +13,37 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
     }
   }
-  OrderedProduct.init({
-    qte: DataTypes.INTEGER,
-    state: DataTypes.STRING,
-    orderId: {
-      type: DataTypes.UUID,
-      references:{
-        model: 'Orders',
-        key:'id'
-      }
+  OrderedProduct.init(
+    {
+      qte: DataTypes.INTEGER,
+      state: {
+        type: DataTypes.ENUM,
+        values: [OrdredProductState.CANCELED, OrdredProductState.CONFIRMED],
+        defaultValue: OrdredProductState.CONFIRMED,
+      },
+      isActive: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: true,
+      },
+      orderId: {
+        type: DataTypes.INTEGER,
+        references: {
+          model: 'Orders',
+          key: 'id',
+        },
+      },
+      productId: {
+        type: DataTypes.INTEGER,
+        references: {
+          model: 'Products',
+          key: 'id',
+        },
+      },
     },
-    productId: {
-      type: DataTypes.UUID,
-      references:{
-        model: 'Products',
-        key:'id'
-      }
-    },
-  }, {
-    sequelize,
-    modelName: 'OrderedProduct',
-  });
+    {
+      sequelize,
+      modelName: 'OrderedProduct',
+    }
+  );
   return OrderedProduct;
 };

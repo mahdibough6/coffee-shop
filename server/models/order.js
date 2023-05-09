@@ -2,16 +2,13 @@
 const {
   Model
 } = require('sequelize');
+const OrderState = require('../enums/OrderState');
 
 
 
 module.exports = (sequelize, DataTypes) => {
   class Order extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
+
     static associate(models) {
       // define association here
       this.belongsToMany(models.Product , { 
@@ -19,6 +16,9 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'orderId'
         
       });
+      this.belongsTo(models.Recipe, {
+        foreignKey: 'recipeId' 
+      })
       this.belongsTo(models.Table, {
         foreignKey: 'tableId' 
       })
@@ -29,14 +29,27 @@ module.exports = (sequelize, DataTypes) => {
   }
   Order.init({
     state: {
-      type: DataTypes.STRING,
-      defaultValue:'unpaid'
+      type: DataTypes.ENUM,
+      values: [OrderState.CANCELED, OrderState.CONFIRMED],
+      defaultValue: OrderState.CONFIRMED // can be ether canceled or proceeded
+    },
+    ref:{
+      type: DataTypes.INTEGER,
+      defaultValue: 0 // can be ether canceled or proceeded
+    },
+    isPaid:{
+      type: DataTypes.BOOLEAN,
+      defaultValue: false // can be ether canceled or proceeded
     },
     totalPrice: {
       type: DataTypes.DOUBLE //total price
     },
+    isActive:{
+      type:DataTypes.BOOLEAN,
+      defaultValue:true
+    } ,
     tableId:{
-      type: DataTypes.UUID,
+      type: DataTypes.INTEGER,
       references: {
         model: 'Tables',
         key: 'id'
@@ -44,20 +57,26 @@ module.exports = (sequelize, DataTypes) => {
     },
     employeeId:{
       allowNull: false,
-      type: DataTypes.UUID,
+      type: DataTypes.INTEGER,
       references: {
         model: 'Employees',
         key: 'id'
       }
     },
     recipeId:{
-      allowNull: false,
-      type: DataTypes.UUID,
+      type: DataTypes.INTEGER,
       references: {
         model: 'Recipes',
         key: 'id'
       }
-    }
+    },
+    coffeeShopId:{
+      type: DataTypes.INTEGER,
+      references: {
+        model: 'CoffeeShops',
+        key: 'id'
+      }
+    },
   }, {
     sequelize,
     modelName: 'Order',

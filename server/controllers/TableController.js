@@ -17,8 +17,8 @@ const TableController = {
   async getAll(req, res) {
     const coffeeShopId = req.params.coffeeShopId;
     try {
-      const tables = await Employee.findAll({where: { coffeeShopId }});
-      res.status(200).json({ tables });
+      const tables = await Table.findAll({where: { coffeeShopId }});
+      res.status(200).json({ tables, isActive:true });
     } catch (error) {
       console.log(error);
       res.status(500).json({ message: 'Internal server error' });
@@ -30,7 +30,7 @@ const TableController = {
     const id = req.parmas.id;
     const coffeeShopId = req.parmas.coffeeShopId;
     try {
-      const table = await Employee.findOne({ where : { id, coffeeShopId } });
+      const table = await Table.findOne({ where : { id, coffeeShopId } });
       if (table) {
         res.status(200).json({ table });
       } else {
@@ -47,7 +47,7 @@ const TableController = {
     const id = req.parmas.id;
     const coffeeShopId = req.parmas.coffeeShopId;
     try {
-      const table = await Employee.findOne({ where : { id, coffeeShopId } });
+      const table = await Table.findOne({ where : { id, coffeeShopId } });
       if (table) {
         const updatedEmployee = await table.update(req.body);
         res.status(200).json({ table: updatedEmployee });
@@ -65,7 +65,7 @@ const TableController = {
     const id = req.parmas.id;
     const coffeeShopId = req.parmas.coffeeShopId;
     try {
-      const table = await Employee.findOne({ where : { id, coffeeShopId } });
+      const table = await Table.findOne({ where : { id, coffeeShopId } });
       if (table) {
         await table.destroy();
         res.status(204).json();

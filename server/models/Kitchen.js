@@ -20,12 +20,18 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Kitchen.init({
-    state: {
-      type :DataTypes.STRING,
-      defaultValue:'active'
+    name: {
+      type: DataTypes.STRING,
     },
+    printer: {
+      type: DataTypes.STRING,
+    },
+    isActive:{
+      type:DataTypes.BOOLEAN,
+      defaultValue:true
+    } ,
     coffeeShopId: {
-      type: DataTypes.UUID,
+      type: DataTypes.INTEGER,
       references: {
         model: 'CoffeeShops',
         key: 'id'

@@ -19,10 +19,19 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   CoffeeShopConfig.init({
-    startHour: DataTypes.TIME,
+    key:{
+      type: DataTypes.STRING,
+    },
+    value:{
+      type: DataTypes.STRING,
+    },
+    isActive:{
+      type:DataTypes.BOOLEAN,
+      defaultValue:true
+    } ,
     coffeeShopId: {
       allowNull: false,
-      type: DataTypes.UUID,
+      type: DataTypes.INTEGER,
       references: {
         model: 'CoffeeShops',
         key: 'id'
@@ -31,6 +40,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'CoffeeShopConfig',
+    tableName: 'CoffeeShopConfig'
   });
   return CoffeeShopConfig;
 };
